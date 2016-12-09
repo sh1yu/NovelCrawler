@@ -1,8 +1,6 @@
 package com.iflytek.ossp.imeutils.novelspider.processor;
 
-import com.iflytek.ossp.imeutils.novelspider.entity.Config;
-import com.iflytek.ossp.imeutils.novelspider.entity.ContentStripRule;
-import com.iflytek.ossp.imeutils.novelspider.entity.PageType;
+import com.iflytek.ossp.imeutils.novelspider.entity.*;
 import com.iflytek.ossp.imeutils.novelspider.utils.StringUtil;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -29,19 +27,19 @@ public class NovelPageProcessor implements PageProcessor {
 
     private static ConcurrentHashMap<String, String> id2BookNameMap = new ConcurrentHashMap<>();
 
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
+    private Site site = Site.me().setRetryTimes(3).setSleepTime(50);
 
-    private ContentStripRule rule ;
+    private PageRule rule ;
 
-    public NovelPageProcessor(ContentStripRule rule) {
+    public NovelPageProcessor(PageRule rule) {
         this.rule = rule;
     }
 
     @Override
     public void process(Page page) {
 
-        // TODO: 2016/12/8 应当根据stripRule的Uid选取所需要的stripRule
-        ContentStripRule currentRule = rule;
+        // TODO: 2016/12/8 应当根据stripRule的Uid选取所需要的PageRule
+        PageRule currentRule = rule;
 
         PageType pageType = (PageType) page.getRequest().getExtra("pageType");
         page.putField("pageType", pageType);
@@ -78,18 +76,34 @@ public class NovelPageProcessor implements PageProcessor {
      * @param page page
      * @param rule rule
      */
-    private void processSeedPage(Page page, ContentStripRule rule) {
+    private void processSeedPage(Page page, PageRule rule) {
 
-        List<String> allListUrls = page.getHtml().links().regex(rule.getBookListUrl(), 0).all();
-        for(String bookListUrl : allListUrls) {
-
-            if(novelListCount.getAndIncrement() < Config.BOOKLIST_NUMBER_MAXIMUN ) {
-                Request request = new Request(bookListUrl);
-                request.putExtra("stripRuleUid", rule.getUid());
-                request.putExtra("pageType", PageType.BOOKLIST);
-                page.addTargetRequest(request);
+        PointStripRule pointStripRule = null;
+        for(PointStripRule rule1 : rule.getPointStripRules()) {
+            if (rule1.getName().equals("bookListLinks")) {
+                pointStripRule = rule1;
+                break;
             }
         }
+
+        if(pointStripRule != null) {
+
+            //noinspection unchecked
+            List<String> bookListLinks = (List<String>) processStrip(page, pointStripRule);
+
+            //将书籍列表页加入待爬队列
+            if(bookListLinks != null) {
+                for (String bookListUrl : bookListLinks) {
+                    if (novelListCount.getAndIncrement() < Config.BOOKLIST_NUMBER_MAXIMUN) {
+                        Request request = new Request(bookListUrl);
+                        request.putExtra("ruleUid", rule.getUid());
+                        request.putExtra("pageType", PageType.BOOKLIST);
+                        page.addTargetRequest(request);
+                    }
+                }
+            }
+        }
+
     }
 
     /**
@@ -97,15 +111,31 @@ public class NovelPageProcessor implements PageProcessor {
      * @param page page
      * @param rule rule
      */
-    private void processBookListPage(Page page, ContentStripRule rule) {
+    private void processBookListPage(Page page, PageRule rule) {
 
-        List<String> allInfoUrls = page.getHtml().links().regex(rule.getBookInfoUrl(), 0).all();
-        for(String bookInfoUrl : allInfoUrls) {
-            if(novelCount.getAndIncrement() < Config.BOOK_NUMBER_MAXIMUN) {
-                Request request = new Request(bookInfoUrl);
-                request.putExtra("stripRuleUid", rule.getUid());
-                request.putExtra("pageType", PageType.BOOKINFO);
-                page.addTargetRequest(request);
+        PointStripRule pointStripRule = null;
+        for(PointStripRule rule1 : rule.getPointStripRules()) {
+            if (rule1.getName().equals("bookInfoLinks")) {
+                pointStripRule = rule1;
+                break;
+            }
+        }
+
+        if(pointStripRule != null) {
+
+            //noinspection unchecked
+            List<String> bookInfoLinks = (List<String>) processStrip(page, pointStripRule);
+
+            //将书籍信息页加入待爬队列
+            if(bookInfoLinks != null) {
+                for(String bookInfoUrl : bookInfoLinks) {
+                    if(novelCount.getAndIncrement() < Config.BOOK_NUMBER_MAXIMUN) {
+                        Request request = new Request(bookInfoUrl);
+                        request.putExtra("stripRuleUid", rule.getUid());
+                        request.putExtra("pageType", PageType.BOOKINFO);
+                        page.addTargetRequest(request);
+                    }
+                }
             }
         }
     }
@@ -115,9 +145,92 @@ public class NovelPageProcessor implements PageProcessor {
      * @param page page
      * @param rule rule
      */
-    private void processBookInfoPage(Page page, ContentStripRule rule) {
+    private void processBookInfoPage(Page page, PageRule rule) {
 
-        Pattern pattern = Pattern.compile(rule.getBookInfoUrl());
+        PointStripRule pointStripRule = null;
+        for(PointStripRule rule1 : rule.getPointStripRules()) {
+            if (rule1.getName().equals("novelId")) {
+                pointStripRule = rule1;
+                break;
+            }
+        }
+        if(pointStripRule == null) {
+           return;
+        }
+        String novelId = (String) processStrip(page, pointStripRule);
+
+        pointStripRule = null;
+        for(PointStripRule rule1 : rule.getPointStripRules()) {
+            if (rule1.getName().equals("bookName")) {
+                pointStripRule = rule1;
+                break;
+            }
+        }
+        if(pointStripRule == null) {
+            return;
+        }
+        String bookName = (String) processStrip(page, pointStripRule);
+
+        pointStripRule = null;
+        for(PointStripRule rule1 : rule.getPointStripRules()) {
+            if (rule1.getName().equals("author")) {
+                pointStripRule = rule1;
+                break;
+            }
+        }
+        if(pointStripRule == null) {
+            return;
+        }
+        String author = (String) processStrip(page, pointStripRule);
+
+        pointStripRule = null;
+        for(PointStripRule rule1 : rule.getPointStripRules()) {
+            if (rule1.getName().equals("imgUrl")) {
+                pointStripRule = rule1;
+                break;
+            }
+        }
+        if(pointStripRule == null) {
+            return;
+        }
+        String imgUrl = (String) processStrip(page, pointStripRule);
+
+        pointStripRule = null;
+        for(PointStripRule rule1 : rule.getPointStripRules()) {
+            if (rule1.getName().equals("description")) {
+                pointStripRule = rule1;
+                break;
+            }
+        }
+        if(pointStripRule == null) {
+            return;
+        }
+        String description = (String) processStrip(page, pointStripRule);
+
+        pointStripRule = null;
+        for(PointStripRule rule1 : rule.getPointStripRules()) {
+            if (rule1.getName().equals("chapterListLinks")) {
+                pointStripRule = rule1;
+                break;
+            }
+        }
+        if(pointStripRule == null) {
+            return;
+        }
+        //noinspection unchecked
+        List<String> chapterListLinks = (List<String>) processStrip(page, pointStripRule);
+        if (chapterListLinks == null) {
+            return;
+        }
+
+        for(String chapterlisturl : chapterListLinks) {
+            Request request = new Request(chapterlisturl);
+            request.putExtra("stripRuleUid", rule.getUid());
+            request.putExtra("pageType", PageType.CHAPTERLIST);
+            page.addTargetRequest(request);
+        }
+
+            Pattern pattern = Pattern.compile(rule.getBookInfoUrl());
         Matcher matcher = pattern.matcher(page.getUrl().toString());
         if(matcher.matches()) {
             String novelid = matcher.group(1);
@@ -132,24 +245,7 @@ public class NovelPageProcessor implements PageProcessor {
             page.putField("imgurl", page.getHtml().xpath(rule.getImgUrlXPath()).toString());
 
             List<String> chapterListIds = page.getHtml().links().regex(rule.getChapterListUrl(), 0).all();
-            Set<String> chapterListIdsSet = new HashSet<>();
-            chapterListIdsSet.addAll(chapterListIds);
 
-            for(String chapterlisturl : chapterListIdsSet) {
-                Pattern chapterlisturlPattern = Pattern.compile(rule.getChapterListUrl());
-                Matcher chapterlisturlMatcher = chapterlisturlPattern.matcher(chapterlisturl);
-                if(chapterlisturlMatcher.matches()) {
-                    String chapterNovelId = matcher.group(1);
-
-                    //找到的链接中，只保存小说ID等于当前页面小说ID的章节列表URL
-                    if(novelid.equals(chapterNovelId)) {
-                        Request request = new Request(chapterlisturl);
-                        request.putExtra("stripRuleUid", rule.getUid());
-                        request.putExtra("pageType", PageType.CHAPTERLIST);
-                        page.addTargetRequest(request);
-                    }
-                }
-            }
         }
     }
 
@@ -158,7 +254,7 @@ public class NovelPageProcessor implements PageProcessor {
      * @param page page
      * @param rule rule
      */
-    private void processChapterListPage(Page page, ContentStripRule rule) {
+    private void processChapterListPage(Page page, PageRule rule) {
 
         Pattern pattern = Pattern.compile(rule.getChapterListUrl());
         Matcher matcher = pattern.matcher(page.getUrl().toString());
@@ -191,7 +287,7 @@ public class NovelPageProcessor implements PageProcessor {
      * @param page page
      * @param rule rule
      */
-    private void processChapterContentPage(Page page, ContentStripRule rule) {
+    private void processChapterContentPage(Page page, PageRule rule) {
 
         Pattern pattern = Pattern.compile(rule.getChapterDetailUrl());
         Matcher matcher = pattern.matcher(page.getUrl().toString());
@@ -201,6 +297,31 @@ public class NovelPageProcessor implements PageProcessor {
 
             page.putField("chaptercontent", page.getHtml().xpath(rule.getChapterContentXPath()).toString());
             page.putField("chaptertitle", page.getHtml().xpath(rule.getChapterTitleXPath()).toString());
+        }
+    }
+
+    /**
+     * 根据不同操作类型进行提取
+     * @param page page
+     * @param pointStripRule 提取点规则
+     * @return List&lt;String&gt;或者String
+     */
+    private Object processStrip(Page page, PointStripRule pointStripRule) {
+
+        List<String> params = pointStripRule.getParams();
+
+        switch (pointStripRule.getStripType()) {
+            case StripType.HTML_LINKS_REGEX :
+                return page.getHtml().links().regex(params.get(0), Integer.parseInt(params.get(1))).all();
+            case StripType.HTML_XPATH:
+                return page.getHtml().xpath(params.get(0)).toString();
+            case StripType.HTML_XPATH_REGEX:
+                String str = page.getHtml().xpath(params.get(0)).toString();
+                return str.replaceAll(params.get(1), params.get(2));
+            case StripType.URL_REGEX:
+                return page.getUrl().toString().replaceAll(params.get(0), params.get(1));
+            default:
+                return null;
         }
     }
 }

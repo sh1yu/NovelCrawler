@@ -1,6 +1,6 @@
 package com.iflytek.ossp.imeutils.novelspider;
 
-import com.iflytek.ossp.imeutils.novelspider.entity.ContentStripRule;
+import com.iflytek.ossp.imeutils.novelspider.entity.PageRule;
 import com.iflytek.ossp.imeutils.novelspider.entity.PageType;
 import com.iflytek.ossp.imeutils.novelspider.pipeline.NovelDetailUrlPipeline;
 import com.iflytek.ossp.imeutils.novelspider.processor.NovelPageProcessor;
@@ -20,10 +20,10 @@ public class NovelSpiderStartup {
 
     public static void main(String[] args) {
 
-        ContentStripRule rule = ContentStripRule.create("site-config/17k.json");
+        PageRule rule = PageRule.create("site-config/17k.json");
 
         Request seedRequest = new Request(rule.getSeedUrl());
-        seedRequest.putExtra("stripRuleUid", rule.getUid());
+        seedRequest.putExtra("ruleUid", rule.getUid());
         seedRequest.putExtra("pageType", PageType.SEED);
 
         Spider.create(new NovelPageProcessor(rule))
