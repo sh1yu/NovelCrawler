@@ -1,0 +1,20 @@
+{
+  "seedUrl": "http://www.17k.com/",
+  "urlRegexRule": {
+    "bookListUrl": "http://www\\.17k\\.com/quanben/",
+    "bookInfoUrl": "http://www\\.17k\\.com/book/(\\d+)\\.html",
+    "chapterListUrl": "http://www\\.17k\\.com/list/(\\d+)\\.html",
+    "chapterDetailUrl": "http://www\\.17k\\.com/chapter/(\\d+)/\\d+\\.html"
+  },
+  "contentXPathRule": {
+    "bookName": "/html/body//div[@class=\"Bookinfo\"]/div[@class=\"Info\"]/h1/a/text()",
+    "author": "/html/body//div[@class=\"AuthorInfo\"]/div[@class=\"author\"]/a[@class=\"name\"]/text()",
+    "imgUrl": "/html/body//div[@class=\"Bookinfo\"]/div[@class=\"Props\"]/div[@class=\"cover\"]/a/img/@src",
+    "description": "/html/body//div[@class=\"Bookinfo\"]/div[@class=\"Info\"]/dl/dd/div[1]/a/text()",
+    "volumeBlock": "/html/body/div[@class=\"Main List\"]/dl[@class=\"Volume\"]/dd",
+    "chapterNameList": "/dd/a/span/text()",
+    "chapterLinkList": "/dd/a/@href",
+    "chapterContent": "//*[@id=\"chapterContentWapper\"]/text()",
+    "chapterTitle": "//*[@id=\"readAreaBox\"]/h1/text()"
+  }
+}
