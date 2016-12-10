@@ -50,11 +50,11 @@ public class NovelDetailUrlPipeline implements Pipeline{
      * @param resultItems resultItems
      */
     private void processBookInfoPage(ResultItems resultItems) {
-        String novelid = resultItems.get("novelid");
-        String bookname = resultItems.get("bookname");
+        String novelid = resultItems.get("novelId");
+        String bookname = resultItems.get("bookName");
         String author = resultItems.get("author");
         String description = resultItems.get("description");
-        String imgurl = resultItems.get("imgurl");
+        String imgurl = resultItems.get("imgUrl");
 
         System.out.println("ID: "+ novelid  +", 书名："+bookname + ", 作者："+ author + ", 简介："+ description + ", 封面图片地址："+ imgurl);
 
@@ -99,7 +99,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
         //info.json
         StringBuilder stringBuilder = new StringBuilder("{\n");
         stringBuilder.append("\t\"author\" : \"").append(author).append("\",\n");
-        stringBuilder.append("\t\"bookname\" : \"").append(bookname).append("\",\n");
+        stringBuilder.append("\t\"bookName\" : \"").append(bookname).append("\",\n");
         stringBuilder.append("\t\"description\" : \"").append(description).append("\"\n");
         stringBuilder.append("}");
 
@@ -134,9 +134,10 @@ public class NovelDetailUrlPipeline implements Pipeline{
      */
     private void processChapterListPage(ResultItems resultItems) {
 
-        List<List<String>> chapternames = resultItems.get("chapternames");
-        String cleanbookname = resultItems.get("cleanbookname");
-        File chapterjson = new File(storagePath+"\\"+cleanbookname+"\\章节.json");
+        List<List<String>> chapternames = resultItems.get("chapterNameList");
+        String bookname = resultItems.get("bookName");
+        String cleanbookname = StringUtil.filterInvalidFileNameStr(bookname);
+        File chapterjson = new File(storagePath+"\\"+ cleanbookname +"\\章节.json");
         JSONArray jsonArray = new JSONArray();
 
         if(chapterjson.exists()) {

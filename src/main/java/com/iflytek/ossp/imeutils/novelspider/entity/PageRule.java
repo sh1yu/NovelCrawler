@@ -1,9 +1,7 @@
 package com.iflytek.ossp.imeutils.novelspider.entity;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.iflytek.ossp.commonutils.ReadFile;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class PageRule {
 
     private String seedUrl;
 
-    private List<PointStripRule> pointStripRules;
+    private PageTypeStripRules pageTypeStripRules;
 
     /**
      * 禁止外部创建对象
@@ -56,11 +54,11 @@ public class PageRule {
         this.seedUrl = seedUrl;
     }
 
-    public List<PointStripRule> getPointStripRules() {
-        return pointStripRules;
+    public PageTypeStripRules getPageTypeStripRules() {
+        return pageTypeStripRules;
     }
 
-    public void setPointStripRules(List<PointStripRule> pointStripRules) {
-        this.pointStripRules = pointStripRules;
+    public void setPageTypeStripRules(PageTypeStripRules pageTypeStripRules) {
+        this.pageTypeStripRules = pageTypeStripRules;
     }
 }

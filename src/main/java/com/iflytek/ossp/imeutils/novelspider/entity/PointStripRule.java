@@ -9,7 +9,10 @@ public class PointStripRule {
 
     private String name;
     private String stripType;
-    private List<String> params;
+    private List<String> stripParams;
+    private String pointActionType;
+    private String nextPageType;
+    private String requestRef;
 
     public String getName() {
         return name;
@@ -27,11 +30,35 @@ public class PointStripRule {
         this.stripType = stripType;
     }
 
-    public List<String> getParams() {
-        return params;
+    public List<String> getstripParams() {
+        return stripParams;
     }
 
-    public void setParams(List<String> params) {
-        this.params = params;
+    public void setstripParams(List<String> params) {
+        this.stripParams = params;
+    }
+
+    public String getPointActionType() {
+        return pointActionType;
+    }
+
+    public void setPointActionType(String pointActionType) {
+        this.pointActionType = pointActionType;
+    }
+
+    public String getNextPageType() {
+        return nextPageType;
+    }
+
+    public void setNextPageType(String nextPageType) {
+        this.nextPageType = nextPageType;
+    }
+
+    public String getRequestRef() {
+        return requestRef;
+    }
+
+    public void setRequestRef(String requestRef) {
+        this.requestRef = requestRef;
     }
 }

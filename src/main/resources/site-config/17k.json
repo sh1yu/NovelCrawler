@@ -1,70 +1,99 @@
 {
   "seedUrl": "http://www.17k.com/",
-  "pointStripRules": [
-    {
-      "name" : "bookListLinks",
-      "stripType" : "102",
-      "params": ["http://www\\.17k\\.com/quanben/", "0"]
-    },
-    {
-      "name" : "bookInfoLinks",
-      "stripType" : "102",
-      "params": ["http://www\\.17k\\.com/book/\\d+\\.html", "0"]
-    },
-    {
-      "name" : "novelId",
-      "stripType": "200",
-      "params": ["http://www\\.17k\\.com/book/\\(d+)\\.html", "\\1"]
-    },
-    {
-      "name" : "bookName",
-      "stripType": "100",
-      "params": ["/html/body//div[@class=\"Bookinfo\"]/div[@class=\"Info\"]/h1/a/text()"]
-    },
-    {
-      "name": "author",
-      "stripType": "100",
-      "params": ["/html/body//div[@class=\"AuthorInfo\"]/div[@class=\"author\"]/a[@class=\"name\"]/text()"]
-    },
-    {
-      "name":"imgUrl",
-      "stripType": "100",
-      "params": ["/html/body//div[@class=\"Bookinfo\"]/div[@class=\"Props\"]/div[@class=\"cover\"]/a/img/@src"]
-    },
-    {
-      "name": "description",
-      "stripType": "100",
-      "params": ["/html/body//div[@class=\"Bookinfo\"]/div[@class=\"Info\"]/dl/dd/div[1]/a/text()"]
-    },
-    {
-      "name" : "chapterListLinks",
-      "stripType" : "102",
-      "params": ["http://www\\.17k\\.com/book/\\d+\\.html", "0"]
-    },
-    {
-      "name": "volumeBlock",
-      "stripType": "100",
-      "params": ["/html/body/div[@class=\"Main List\"]/dl[@class=\"Volume\"]/dd"]
-    },
-    {
-      "name": "chapterNameList",
-      "stripType": "100",
-      "params": ["/dd/a/span/text()"]
-    },
-    {
-      "name": "chapterLinks",
-      "stripType": "100",
-      "params": ["/dd/a/@href"]
-    },
-    {
-      "name": "chapterContent",
-      "stripType": "100",
-      "params": ["//*[@id=\"chapterContentWapper\"]/text()"]
-    },
-    {
-      "name": "chapterTitle",
-      "stripType": "100",
-      "params": ["//*[@id=\"readAreaBox\"]/h1/text()"]
-    }
-  ]
+  "LevelStripRules": {
+    "seedTypePointRules" : [
+      {
+        "name" : "bookListLinks",
+        "stripType" : "102",
+        "stripParams": ["http://www\\.17k\\.com/quanben/", "0"],
+        "pointActionType": "01",
+        "nextPageType": "BOOKLIST"
+      }
+    ],
+    "bookListTypePointRules": [
+      {
+        "name" : "bookInfoLinks",
+        "stripType" : "102",
+        "stripParams": ["http://www\\.17k\\.com/book/\\d+\\.html", "0"],
+        "pointActionType": "01",
+        "nextPageType": "BOOKINFO"
+      }
+    ],
+    "bookInfoTypePointRules": [
+      {
+        "name" : "bookName",
+        "stripType": "100",
+        "stripParams": ["/html/body//div[@class=\"Bookinfo\"]/div[@class=\"Info\"]/h1/a/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name" : "bookName",
+        "stripType": "100",
+        "stripParams": ["/html/body//div[@class=\"Bookinfo\"]/div[@class=\"Info\"]/h1/a/text()"],
+        "pointActionType": "03",
+        "requestRef": "chapterListLinks"
+      },
+      {
+        "name": "author",
+        "stripType": "100",
+        "stripParams": ["/html/body//div[@class=\"AuthorInfo\"]/div[@class=\"author\"]/a[@class=\"name\"]/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name":"imgUrl",
+        "stripType": "100",
+        "stripParams": ["/html/body//div[@class=\"Bookinfo\"]/div[@class=\"Props\"]/div[@class=\"cover\"]/a/img/@src"],
+        "pointActionType": "02"
+      },
+      {
+        "name": "description",
+        "stripType": "100",
+        "stripParams": ["/html/body//div[@class=\"Bookinfo\"]/div[@class=\"Info\"]/dl/dd/div[1]/a/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name" : "chapterListLinks",
+        "stripType" : "102",
+        "stripParams": ["http://www\\.17k\\.com/book/\\d+\\.html", "0"],
+        "pointActionType": "01",
+        "nextPageType": "CHAPTERLIST"
+      }
+    ],
+    "chapterListTypePointRules": [
+      {
+        "name" : "bookName",
+        "stripType": "300",
+        "stripParams": ["bookName"],
+        "pointActionType": "03",
+        "requestRef": "chapterLinks"
+      },
+      {
+        "name": "chapterNameList",
+        "stripType": "103",
+        "stripParams": ["/html/body/div[@class=\"Main List\"]/dl[@class=\"Volume\"]/dd", "/dd/a/span/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name": "chapterLinks",
+        "stripType": "103",
+        "stripParams": ["/html/body/div[@class=\"Main List\"]/dl[@class=\"Volume\"]/dd", "/dd/a/@href"],
+        "pointActionType": "01",
+        "nextPageType": "CHAPTERCONTENT"
+      }
+    ],
+    "chapterContentTypePointRules": [
+      {
+        "name": "chapterContent",
+        "stripType": "100",
+        "stripParams": ["//*[@id=\"chapterContentWapper\"]/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name": "chapterTitle",
+        "stripType": "100",
+        "stripParams": ["//*[@id=\"readAreaBox\"]/h1/text()"],
+        "pointActionType": "02"
+      }
+    ]
+  }
 }
