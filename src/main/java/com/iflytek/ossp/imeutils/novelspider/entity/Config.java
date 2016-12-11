@@ -17,6 +17,8 @@ public class Config {
     public static int BOOK_NUMBER_MAXIMUN = 1;
     public static int BOOKLIST_NUMBER_MAXIMUN = 1;
 
+    public static String CRAWLSITE ;
+
     static {
         Properties properties = new Properties();
         InputStream in = Config.class.getClassLoader().getResourceAsStream("config.properties");
@@ -28,5 +30,7 @@ public class Config {
 
         BOOK_NUMBER_MAXIMUN = Integer.parseInt(properties.getProperty("book.number.maximum"));
         BOOKLIST_NUMBER_MAXIMUN = Integer.parseInt(properties.getProperty("bookList.number.maximum"));
+
+        CRAWLSITE = properties.getProperty("site.config.name", "");
     }
 }

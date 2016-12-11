@@ -1,5 +1,6 @@
 package com.iflytek.ossp.imeutils.novelspider;
 
+import com.iflytek.ossp.imeutils.novelspider.entity.Config;
 import com.iflytek.ossp.imeutils.novelspider.entity.PageRule;
 import com.iflytek.ossp.imeutils.novelspider.entity.PageType;
 import com.iflytek.ossp.imeutils.novelspider.pipeline.NovelDetailUrlPipeline;
@@ -20,7 +21,7 @@ public class NovelSpiderStartup {
 
     public static void main(String[] args) {
 
-        PageRule rule = PageRule.create("site-config/17k.json");
+        PageRule rule = PageRule.create(Config.CRAWLSITE);
 
         Request seedRequest = new Request(rule.getSeedUrl());
         seedRequest.putExtra("ruleUid", rule.getUid());
