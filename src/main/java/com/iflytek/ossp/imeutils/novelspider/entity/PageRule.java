@@ -2,8 +2,10 @@ package com.iflytek.ossp.imeutils.novelspider.entity;
 
 import com.alibaba.fastjson.JSON;
 import com.iflytek.ossp.commonutils.ReadFile;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /** 存放抽取规则
  * Created by sypeng on 2016/12/8.
@@ -18,7 +20,7 @@ public class PageRule {
 
     private String seedUrl;
 
-    private PageTypeStripRules pageTypeStripRules;
+    private Map<String, List<PointStripRule>> levelStripRules;
 
     /**
      * 禁止外部创建对象
@@ -35,14 +37,16 @@ public class PageRule {
 
         String jsonConfigStr = ReadFile.readAll(BASEPATH + fileName, "UTF-8");
 
-        return JSON.parseObject(jsonConfigStr, PageRule.class);
+        PageRule pageRule = JSON.parseObject(jsonConfigStr, PageRule.class);
+        pageRule.setUid(DigestUtils.md5Hex(pageRule.getSeedUrl()));
+        return pageRule;
     }
 
     public String getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    private void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -54,11 +58,11 @@ public class PageRule {
         this.seedUrl = seedUrl;
     }
 
-    public PageTypeStripRules getPageTypeStripRules() {
-        return pageTypeStripRules;
+    public Map<String, List<PointStripRule>> getLevelStripRules() {
+        return levelStripRules;
     }
 
-    public void setPageTypeStripRules(PageTypeStripRules pageTypeStripRules) {
-        this.pageTypeStripRules = pageTypeStripRules;
+    public void setLevelStripRules(Map<String, List<PointStripRule>> levelStripRules) {
+        this.levelStripRules = levelStripRules;
     }
 }

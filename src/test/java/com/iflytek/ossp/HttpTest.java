@@ -16,7 +16,7 @@ import java.io.IOException;
 public class HttpTest {
     public static void main(String[] args) throws IOException {
         HttpClient client = HttpClients.createDefault();
-        HttpGet get = new HttpGet("http://m.ireader.com/index.php?key=4B4&rgt=5&p5=16&pc=60&jump=&p2=104004");
+        HttpGet get = new HttpGet("http://www.17k.com/chapter/89359/9753165.html");
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectTimeout(500).setConnectionRequestTimeout(500)
                 .setSocketTimeout(1000).build();

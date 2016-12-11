@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.iflytek.ossp.commonutils.ReadFile;
-import com.iflytek.ossp.commonutils.UrlStringUtil;
 import com.iflytek.ossp.imeutils.novelspider.entity.PageType;
 import com.iflytek.ossp.imeutils.novelspider.utils.StringUtil;
 import org.apache.commons.lang.StringUtils;
@@ -17,7 +16,6 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 import java.io.*;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 /** 处理所有小说详情页Url的pipeline
  * Created by sypeng on 2016/12/7.
@@ -50,19 +48,22 @@ public class NovelDetailUrlPipeline implements Pipeline{
      * @param resultItems resultItems
      */
     private void processBookInfoPage(ResultItems resultItems) {
-        String novelid = resultItems.get("novelId");
         String bookname = resultItems.get("bookName");
         String author = resultItems.get("author");
         String description = resultItems.get("description");
         String imgurl = resultItems.get("imgUrl");
 
-        System.out.println("ID: "+ novelid  +", 书名："+bookname + ", 作者："+ author + ", 简介："+ description + ", 封面图片地址："+ imgurl);
+        System.out.println("书名："+bookname + ", 作者："+ author + ", 简介："+ description + ", 封面图片地址："+ imgurl);
 
         String cleanbookname = StringUtil.filterInvalidFileNameStr(bookname);
 
         File bookdir = new File(storagePath+"\\"+ cleanbookname);
+        if(bookdir.exists()) {
+            LOGGER.warn("文件夹"+cleanbookname+"已经存在");
+            return;
+        }
         if(!bookdir.mkdir()) {
-            LOGGER.error("创建文件夹"+cleanbookname+"失败！");
+            LOGGER.warn("文件夹"+cleanbookname+"创建不成功");
             return;
         }
 
@@ -172,14 +173,17 @@ public class NovelDetailUrlPipeline implements Pipeline{
      */
     private void processChapterContentPage(ResultItems resultItems) {
 
-        String cleanBookName = resultItems.get("cleanbookname");
-        String chapterTitle = resultItems.get("chaptertitle");
-        String chapterContent = resultItems.get("chaptercontent");
+        String bookName = resultItems.get("bookName");
+        String chapterTitle = resultItems.get("chapterTitle");
+        String chapterContent = resultItems.get("chapterContent");
+
 
         //排除没有内容的章节
-        if(StringUtils.isBlank(chapterTitle) || StringUtils.isBlank(chapterContent)) {
+        if(StringUtils.isBlank(bookName) || StringUtils.isBlank(chapterTitle) || StringUtils.isBlank(chapterContent)) {
             return;
         }
+
+        String cleanBookName = StringUtil.filterInvalidFileNameStr(bookName);
 
         File chapterDir = new File(storagePath+"\\"+cleanBookName+"\\章节");
         if(!chapterDir.exists()) {

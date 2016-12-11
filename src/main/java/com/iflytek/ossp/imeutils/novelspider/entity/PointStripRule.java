@@ -30,12 +30,12 @@ public class PointStripRule {
         this.stripType = stripType;
     }
 
-    public List<String> getstripParams() {
+    public List<String> getStripParams() {
         return stripParams;
     }
 
-    public void setstripParams(List<String> params) {
-        this.stripParams = params;
+    public void setStripParams(List<String> stripParams) {
+        this.stripParams = stripParams;
     }
 
     public String getPointActionType() {

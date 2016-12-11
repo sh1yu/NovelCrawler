@@ -1,26 +1,26 @@
 package com.iflytek.ossp.imeutils.novelspider.processor;
 
 import com.iflytek.ossp.imeutils.novelspider.entity.*;
-import com.iflytek.ossp.imeutils.novelspider.utils.StringUtil;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
+import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /** 页面处理器
  * Created by sypeng on 2016/12/7.
  */
 public class NovelPageProcessor implements PageProcessor {
 
-    private static AtomicLong novelCount = new AtomicLong(0);
     private static AtomicLong novelListCount = new AtomicLong(0);
+    private static AtomicLong novelCount = new AtomicLong(0);
 
     private Site site = Site.me().setRetryTimes(3).setSleepTime(50);
 
@@ -41,7 +41,10 @@ public class NovelPageProcessor implements PageProcessor {
             page.putField(key, page.getRequest().getExtra(key));
         }
 
-        processPage(page, currentRule);
+        PageType pageType = page.getResultItems().get("pageType");
+        List<PointStripRule> pointStripRules = currentRule.getLevelStripRules().get(pageType.toString());
+
+        processPage(page, pointStripRules);
     }
 
     @Override
@@ -53,15 +56,15 @@ public class NovelPageProcessor implements PageProcessor {
     /**
      * 处理页面
      * @param page page
-     * @param rule rule
+     * @param pointStripRules List<PointStripRule>
      */
-    private void processPage(Page page, PageRule rule) {
+    private void processPage(Page page, List<PointStripRule> pointStripRules) {
 
         Map<String, Map<String, Object>> nextRequestRefs = new HashMap<>();
         Map<String, PointStripRule> requestLinkRules = new HashMap<>();
 
         //预处理不同action的point
-        for(PointStripRule rule1 : rule.getPageTypeStripRules().getBookInfoTypePointRules()) {
+        for(PointStripRule rule1 : pointStripRules) {
 
             switch (rule1.getPointActionType()) {
                 case PointActionType.ADDREQUEST:
@@ -91,12 +94,25 @@ public class NovelPageProcessor implements PageProcessor {
             List<String> listLinks = (List<String>) processStrip(page, requestLinkRule);
             if(listLinks != null) {
                 for (String link : listLinks) {
+
+
+                    //书籍数目的限制
+                    if(isRequestAddLimited(page.getResultItems())) {
+                        break;
+                    }
+
                     Request request = new Request(link);
+
+                    if(nextRequestRefs.get(linkRuleName) != null) {
+                        for (String extraName : nextRequestRefs.get(linkRuleName).keySet()) {
+                            request.putExtra(extraName, nextRequestRefs.get(linkRuleName).get(extraName));
+                        }
+                    }
+
                     request.putExtra("ruleUid", rule.getUid());
                     request.putExtra("pageType", PageType.valueOf(requestLinkRule.getNextPageType()));
-                    for(String extraName : nextRequestRefs.get(linkRuleName).keySet()) {
-                        request.putExtra(extraName, nextRequestRefs.get(linkRuleName).get(extraName));
-                    }
+
+                    page.addTargetRequest(request);
                 }
             }
         }
@@ -110,7 +126,7 @@ public class NovelPageProcessor implements PageProcessor {
      */
     private Object processStrip(Page page, PointStripRule pointStripRule) {
 
-        List<String> params = pointStripRule.getstripParams();
+        List<String> params = pointStripRule.getStripParams();
 
         switch (pointStripRule.getStripType()) {
             case StripType.HTML_LINKS_REGEX :
@@ -121,12 +137,19 @@ public class NovelPageProcessor implements PageProcessor {
                 String str = page.getHtml().xpath(params.get(0)).toString();
                 return str.replaceAll(params.get(1), params.get(2));
             case StripType.HTML_XPATH_BLOCK_LISTS:
-                List<Selectable> blocks = page.getHtml().xpath(params.get(0)).nodes();
-                List<List<String>> items = new LinkedList<>();
-                for(Selectable selectable: blocks) {
-                    items.add(selectable.xpath(params.get(1)).all());
+                List<Selectable> blocks1 = page.getHtml().xpath(params.get(0)).nodes();
+                List<List<String>> items1 = new LinkedList<>();
+                for(Selectable selectable: blocks1) {
+                    items1.add(selectable.xpath(params.get(1)).all());
                 }
-                return items;
+                return items1;
+            case StripType.HTML_XPATH_BLOCK_FLATLIST:
+                List<Selectable> blocks2 = page.getHtml().xpath(params.get(0)).nodes();
+                List<String> items2 = new LinkedList<>();
+                for(Selectable selectable: blocks2) {
+                    items2.addAll(selectable.xpath(params.get(1)).all());
+                }
+                return items2;
             case StripType.URL_REGEX:
                 return page.getUrl().toString().replaceAll(params.get(0), params.get(1));
             case StripType.PAGE_FIELD_REF:
@@ -134,5 +157,16 @@ public class NovelPageProcessor implements PageProcessor {
             default:
                 return null;
         }
+    }
+
+    /**
+     * 根据当前页面的resultItems进行判断，是否限制新request的添加
+     * @param resultItems resultItems
+     * @return true表示限制添加， false表示可以添加
+     */
+    private boolean isRequestAddLimited(ResultItems resultItems) {
+        return resultItems.get("pageType").equals(PageType.SEED) && novelListCount.incrementAndGet() > Config.BOOKLIST_NUMBER_MAXIMUN
+                || resultItems.get("pageType").equals(PageType.BOOKLIST) && novelCount.incrementAndGet() > Config.BOOK_NUMBER_MAXIMUN;
+
     }
 }

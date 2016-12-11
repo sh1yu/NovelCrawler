@@ -1,7 +1,7 @@
 {
   "seedUrl": "http://www.17k.com/",
   "LevelStripRules": {
-    "seedTypePointRules" : [
+    "SEED" : [
       {
         "name" : "bookListLinks",
         "stripType" : "102",
@@ -10,7 +10,7 @@
         "nextPageType": "BOOKLIST"
       }
     ],
-    "bookListTypePointRules": [
+    "BOOKLIST": [
       {
         "name" : "bookInfoLinks",
         "stripType" : "102",
@@ -19,7 +19,7 @@
         "nextPageType": "BOOKINFO"
       }
     ],
-    "bookInfoTypePointRules": [
+    "BOOKINFO": [
       {
         "name" : "bookName",
         "stripType": "100",
@@ -54,12 +54,12 @@
       {
         "name" : "chapterListLinks",
         "stripType" : "102",
-        "stripParams": ["http://www\\.17k\\.com/book/\\d+\\.html", "0"],
+        "stripParams": ["http://www\\.17k\\.com/list/\\d+\\.html", "0"],
         "pointActionType": "01",
         "nextPageType": "CHAPTERLIST"
       }
     ],
-    "chapterListTypePointRules": [
+    "CHAPTERLIST": [
       {
         "name" : "bookName",
         "stripType": "300",
@@ -75,13 +75,13 @@
       },
       {
         "name": "chapterLinks",
-        "stripType": "103",
+        "stripType": "104",
         "stripParams": ["/html/body/div[@class=\"Main List\"]/dl[@class=\"Volume\"]/dd", "/dd/a/@href"],
         "pointActionType": "01",
         "nextPageType": "CHAPTERCONTENT"
       }
     ],
-    "chapterContentTypePointRules": [
+    "CHAPTERCONTENT": [
       {
         "name": "chapterContent",
         "stripType": "100",
