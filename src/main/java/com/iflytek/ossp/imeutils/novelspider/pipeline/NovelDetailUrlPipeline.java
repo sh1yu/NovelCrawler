@@ -184,13 +184,14 @@ public class NovelDetailUrlPipeline implements Pipeline{
         }
 
         String cleanBookName = StringUtil.filterInvalidFileNameStr(bookName);
+        String cleanChapterTitle = StringUtil.filterInvalidFileNameStr(chapterTitle);
 
         File chapterDir = new File(storagePath+"\\"+cleanBookName+"\\章节");
         if(!chapterDir.exists()) {
             return;
         }
 
-        File chapter = new File(storagePath+"\\"+cleanBookName+"\\章节\\"+chapterTitle + ".txt");
+        File chapter = new File(storagePath+"\\"+cleanBookName+"\\章节\\" + cleanChapterTitle + ".txt");
         try {
             PrintWriter writer = new PrintWriter(new FileOutputStream(chapter));
             writer.println(chapterContent);
