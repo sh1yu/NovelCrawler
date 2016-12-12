@@ -97,7 +97,7 @@ public class NovelPageProcessor implements PageProcessor {
 
 
                     //书籍数目的限制
-                    if(isRequestAddLimited(page.getResultItems())) {
+                    if(isRequestAddLimited(page.getResultItems(), requestLinkRule)) {
                         break;
                     }
 
@@ -150,6 +150,16 @@ public class NovelPageProcessor implements PageProcessor {
                     items2.addAll(selectable.xpath(params.get(1)).all());
                 }
                 return items2;
+            case StripType.HTML_XPATH_LIST_FLATEN:
+                List<String> block = page.getHtml().xpath(params.get(0)).all();
+                StringBuilder builder = new StringBuilder();
+                if(block == null) {
+                    return "";
+                }
+                for(String str2 : block) {
+                    builder.append(str2);
+                }
+                return builder.toString();
             case StripType.URL_REGEX:
                 return page.getUrl().toString().replaceAll(params.get(0), params.get(1));
             case StripType.PAGE_FIELD_REF:
@@ -162,11 +172,16 @@ public class NovelPageProcessor implements PageProcessor {
     /**
      * 根据当前页面的resultItems进行判断，是否限制新request的添加
      * @param resultItems resultItems
+     * @param pointStripRule 抽取规则
      * @return true表示限制添加， false表示可以添加
      */
-    private boolean isRequestAddLimited(ResultItems resultItems) {
-        return resultItems.get("pageType").equals(PageType.SEED) && novelListCount.incrementAndGet() > Config.BOOKLIST_NUMBER_MAXIMUN
-                || resultItems.get("pageType").equals(PageType.BOOKLIST) && novelCount.incrementAndGet() > Config.BOOK_NUMBER_MAXIMUN;
+    private boolean isRequestAddLimited(ResultItems resultItems, PointStripRule pointStripRule) {
+        return  pointStripRule.getPointActionType().equals(PointActionType.ADDREQUEST)
+                && PageType.BOOKLIST.equals(PageType.valueOf(pointStripRule.getNextPageType()))
+                && novelListCount.incrementAndGet() > Config.BOOKLIST_NUMBER_MAXIMUN
+                || pointStripRule.getPointActionType().equals(PointActionType.ADDREQUEST)
+                && PageType.BOOKINFO.equals(PageType.valueOf(pointStripRule.getNextPageType()))
+                && novelCount.incrementAndGet() > Config.BOOK_NUMBER_MAXIMUN;
 
     }
 }

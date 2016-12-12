@@ -20,6 +20,9 @@ public class StripType {
     /*** html区块列表下的各个元素的扁平列表 参数个数为2 xpath1 xpath2 返回List<String>*/
     public static final String HTML_XPATH_BLOCK_FLATLIST = "104";
 
+    /*** html xpath提取 List<String>，之后列表转为一个字符串 参数个数为1 xpath 返回String*/
+    public static final String HTML_XPATH_LIST_FLATEN = "105";
+
 
 
     /*** url增则提取， 参数个数为2 regex replacement 返回String*/
