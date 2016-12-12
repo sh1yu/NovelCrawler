@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.iflytek.ossp.commonutils.ReadFile;
+import com.iflytek.ossp.imeutils.novelspider.entity.Config;
 import com.iflytek.ossp.imeutils.novelspider.entity.PageType;
 import com.iflytek.ossp.imeutils.novelspider.utils.StringUtil;
 import org.apache.commons.lang.StringUtils;
@@ -146,15 +147,38 @@ public class NovelDetailUrlPipeline implements Pipeline{
             jsonArray = JSON.parseArray(jsonstr);
         }
 
-        for(int i=0; i<chapternames.size(); i++) {
-            List<String> ss = chapternames.get(i);
-            String indexPrefix = i+"-";
-            for(int j=0; j<ss.size(); j++) {
-                String cleanChapterName = StringUtil.filterInvalidFileNameStr(ss.get(j));
-                JSONObject object = new JSONObject();
-                object.put("title", cleanChapterName);
-                object.put("index", indexPrefix+j);
-                jsonArray.add(object);
+
+        if(chapternames == null || chapternames.size()==0) {
+            return;
+        } else if(Config.CHAPTERLIST_ISUSEVOLUME){ //分卷小说的章节
+            for (int i = 0; i < chapternames.size(); i++) {
+                List<String> ss = chapternames.get(i);
+                if(ss == null || ss.size()==0) {
+                    return;
+                }
+                String indexPrefix = i + "-";
+                for (int j = 0; j < ss.size(); j++) {
+                    String cleanChapterName = StringUtil.filterInvalidFileNameStr(ss.get(j));
+                    JSONObject object = new JSONObject();
+                    object.put("title", cleanChapterName);
+                    object.put("index", indexPrefix + j);
+                    jsonArray.add(object);
+                }
+            }
+        } else { //不分卷小说
+            int chapterCount = 0;
+            for (List<String> ss : chapternames) {
+                if (ss == null || ss.size() == 0) {
+                    return;
+                }
+                for (String s : ss) {
+                    String cleanChapterName = StringUtil.filterInvalidFileNameStr(s);
+                    JSONObject object = new JSONObject();
+                    object.put("title", cleanChapterName);
+                    object.put("index", chapterCount);
+                    jsonArray.add(object);
+                    chapterCount++;
+                }
             }
         }
 

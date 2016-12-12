@@ -17,6 +17,8 @@ public class Config {
     public static int BOOK_NUMBER_MAXIMUN = 1;
     public static int BOOKLIST_NUMBER_MAXIMUN = 1;
 
+    public static boolean CHAPTERLIST_ISUSEVOLUME = true;
+
     public static String CRAWLSITE ;
 
     static {
@@ -30,6 +32,8 @@ public class Config {
 
         BOOK_NUMBER_MAXIMUN = Integer.parseInt(properties.getProperty("book.number.maximum"));
         BOOKLIST_NUMBER_MAXIMUN = Integer.parseInt(properties.getProperty("bookList.number.maximum"));
+
+        CHAPTERLIST_ISUSEVOLUME = Boolean.parseBoolean(properties.getProperty("book.chapterlist.isUseVolume"));
 
         CRAWLSITE = properties.getProperty("site.config.name", "");
     }
