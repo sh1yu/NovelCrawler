@@ -49,6 +49,15 @@ public class NovelDetailUrlPipeline implements Pipeline{
      * @param resultItems resultItems
      */
     private void processBookInfoPage(ResultItems resultItems) {
+
+        //不处理页面
+        Boolean discard = resultItems.get("discard");
+        if(discard != null && discard.equals(Boolean.TRUE)) {
+            return;
+        }
+
+        String bookStyle = resultItems.get("bookStyle");
+
         String bookname = resultItems.get("bookName");
         String author = resultItems.get("author");
         String description = resultItems.get("description");
@@ -58,7 +67,17 @@ public class NovelDetailUrlPipeline implements Pipeline{
 
         String cleanbookname = StringUtil.filterInvalidFileNameStr(bookname);
 
-        File bookdir = new File(storagePath+"\\"+ cleanbookname);
+        String fileDirStr;
+        if(Config.BOOK_STYLE_ENABLE && StringUtils.isNotEmpty(bookStyle)) {
+            File styleDir = new File(storagePath+"\\"+StringUtil.filterInvalidFileNameStr(bookStyle));
+            if(! styleDir.exists() && ! styleDir.mkdir()) {
+                LOGGER.warn("文件夹"+StringUtil.filterInvalidFileNameStr(bookStyle)+"创建不成功");
+            }
+            fileDirStr = storagePath+"\\"+StringUtil.filterInvalidFileNameStr(bookStyle)+"\\"+cleanbookname;
+        } else {
+            fileDirStr = storagePath+"\\" + cleanbookname;
+        }
+        File bookdir = new File(fileDirStr);
         if(bookdir.exists()) {
             LOGGER.warn("文件夹"+cleanbookname+"已经存在");
             return;
@@ -73,7 +92,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
         OutputStream outputStream = null;
         try {
             inputStream = new URL(imgurl).openStream();
-            outputStream = new FileOutputStream(new File(storagePath+"\\"+cleanbookname+"\\封面.jpg"));
+            outputStream = new FileOutputStream(new File(fileDirStr + "\\封面.jpg"));
             byte[] buf = new byte[1024];
             int len;
             while ((len = inputStream.read(buf)) != -1) {
@@ -107,7 +126,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
 
 
         try {
-            outputStream = new FileOutputStream(new File(storagePath+"\\"+cleanbookname+"\\info.json"));
+            outputStream = new FileOutputStream(new File(fileDirStr + "\\info.json"));
             PrintWriter writer = new PrintWriter(outputStream);
             writer.println(stringBuilder.toString());
             writer.close();
@@ -124,7 +143,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
         }
 
         //章节文件夹
-        File chapterDir = new File(storagePath+"\\"+cleanbookname+"\\章节");
+        File chapterDir = new File(fileDirStr + "\\章节");
         if(!chapterDir.mkdir()) {
             LOGGER.error("创建"+cleanbookname+"的章节文件夹失败！");
         }
@@ -136,14 +155,29 @@ public class NovelDetailUrlPipeline implements Pipeline{
      */
     private void processChapterListPage(ResultItems resultItems) {
 
+        //不处理页面
+        Boolean discard = resultItems.get("discard");
+        if(discard != null && discard.equals(Boolean.TRUE)) {
+            return;
+        }
+
         List<List<String>> chapternames = resultItems.get("chapterNameList");
+        String bookStyle = resultItems.get("bookStyle");
         String bookname = resultItems.get("bookName");
         String cleanbookname = StringUtil.filterInvalidFileNameStr(bookname);
-        File chapterjson = new File(storagePath+"\\"+ cleanbookname +"\\章节.json");
+
+        String fileDirStr;
+        if(Config.BOOK_STYLE_ENABLE && StringUtils.isNotEmpty(bookStyle)) {
+            fileDirStr = storagePath+"\\"+StringUtil.filterInvalidFileNameStr(bookStyle)+"\\"+cleanbookname;
+        } else {
+            fileDirStr = storagePath+"\\" + cleanbookname;
+        }
+
+        File chapterjson = new File(fileDirStr +"\\章节.json");
         JSONArray jsonArray = new JSONArray();
 
         if(chapterjson.exists()) {
-            String jsonstr = ReadFile.readAll(storagePath+"\\"+cleanbookname+"\\章节.json", "utf-8");
+            String jsonstr = ReadFile.readAll(fileDirStr + "\\章节.json", "utf-8");
             jsonArray = JSON.parseArray(jsonstr);
         }
 
@@ -197,25 +231,39 @@ public class NovelDetailUrlPipeline implements Pipeline{
      */
     private void processChapterContentPage(ResultItems resultItems) {
 
+        //不处理页面
+        Boolean discard = resultItems.get("discard");
+        if(discard != null && discard.equals(Boolean.TRUE)) {
+            return;
+        }
+
+        String bookStyle = resultItems.get("bookStyle");
         String bookName = resultItems.get("bookName");
         String chapterTitle = resultItems.get("chapterTitle");
         String chapterContent = resultItems.get("chapterContent");
 
+        String cleanBookName = StringUtil.filterInvalidFileNameStr(bookName);
+        String cleanChapterTitle = StringUtil.filterInvalidFileNameStr(chapterTitle);
 
         //排除没有内容的章节
         if(StringUtils.isBlank(bookName) || StringUtils.isBlank(chapterTitle) || StringUtils.isBlank(chapterContent)) {
             return;
         }
 
-        String cleanBookName = StringUtil.filterInvalidFileNameStr(bookName);
-        String cleanChapterTitle = StringUtil.filterInvalidFileNameStr(chapterTitle);
+        String fileDirStr;
+        if(Config.BOOK_STYLE_ENABLE && StringUtils.isNotEmpty(bookStyle)) {
+            fileDirStr = storagePath+"\\"+StringUtil.filterInvalidFileNameStr(bookStyle)+"\\"+cleanBookName;
+        } else {
+            fileDirStr = storagePath+"\\" + cleanBookName;
+        }
 
-        File chapterDir = new File(storagePath+"\\"+cleanBookName+"\\章节");
+
+        File chapterDir = new File(fileDirStr + "\\章节");
         if(!chapterDir.exists()) {
             return;
         }
 
-        File chapter = new File(storagePath+"\\"+cleanBookName+"\\章节\\" + cleanChapterTitle + ".txt");
+        File chapter = new File(fileDirStr + "\\章节\\" + cleanChapterTitle + ".txt");
         try {
             PrintWriter writer = new PrintWriter(new FileOutputStream(chapter));
             writer.println(chapterContent);

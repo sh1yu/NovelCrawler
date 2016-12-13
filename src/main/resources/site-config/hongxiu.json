@@ -41,6 +41,19 @@
         "requestRef": "chapterListLinks"
       },
       {
+        "name" : "bookStyle",
+        "stripType": "105",
+        "stripParams": ["//*[@id=\"htmlpos\"]/a/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name" : "bookStyle",
+        "stripType": "105",
+        "stripParams": ["//*[@id=\"htmlpos\"]/a/text()"],
+        "pointActionType": "03",
+        "requestRef": "chapterListLinks"
+      },
+      {
         "name": "author",
         "stripType": "100",
         "stripParams": ["//*[@id=\"htmlzuozhe\"]/text()"],
@@ -71,6 +84,13 @@
         "name" : "bookName",
         "stripType": "300",
         "stripParams": ["bookName"],
+        "pointActionType": "03",
+        "requestRef": "chapterLinks"
+      },
+      {
+        "name" : "bookStyle",
+        "stripType": "300",
+        "stripParams": ["bookStyle"],
         "pointActionType": "03",
         "requestRef": "chapterLinks"
       },

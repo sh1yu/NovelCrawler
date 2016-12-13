@@ -19,5 +19,13 @@ public class RegexTest {
         } else {
             System.out.println("不匹配！");
         }
+
+        reg = "(?<=架空)?(.{2}).*(小说)?";
+        str = "架空历史";
+        pattern = Pattern.compile(reg);
+        matcher = pattern.matcher(str);
+        if(matcher.matches()) {
+            System.out.println(matcher.group(1));
+        }
     }
 }
