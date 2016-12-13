@@ -25,7 +25,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NovelDetailUrlPipeline.class);
 
-    private static final String storagePath = "D:\\data\\novelcrawl";
+    private static final String storagePath = Config.STORAGE_DIR;
 
     @Override
     public void process(ResultItems resultItems, Task task) {

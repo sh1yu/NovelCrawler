@@ -1,0 +1,120 @@
+{
+  "seedUrl": "http://book.zongheng.com/quanben/c0/c0/b9/u1/p1/v0/s1/t0/ALL.html",
+  "LevelStripRules": {
+    "SEED" : [
+      {
+        "name" : "bookListLinks",
+        "stripType" : "400",
+        "stripParams": ["function run() {var s = \"http://book.zongheng.com/quanben/c0/c0/b9/u1/p{X}/v0/s1/t0/ALL.html\";var r = [];for(var i=1; i<=29; i++) {r.push(s.replace(/{X}/g, i));}return r;}", "run"],
+        "pointActionType": "01",
+        "nextPageType": "BOOKLIST"
+      }
+    ],
+    "BOOKLIST": [
+      {
+        "name" : "bookInfoLinks",
+        "stripType" : "106",
+        "stripParams": ["/html/body//div[@class=\"two_main\"]//ul[@class=\"main_con\"]",
+          "http://book\\.zongheng\\.com/book/\\d+\\.html", "0"],
+        "pointActionType": "01",
+        "nextPageType": "BOOKINFO"
+      }
+    ],
+    "BOOKINFO": [
+      {
+        "name" : "bookName",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/h1/a/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name" : "bookName",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/h1/a/text()"],
+        "pointActionType": "03",
+        "requestRef": "chapterListLinks"
+      },
+      {
+        "name" : "bookStyle",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"booksub\"]/a[2]/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name" : "bookStyle",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"booksub\"]/a[2]/text()"],
+        "pointActionType": "03",
+        "requestRef": "chapterListLinks"
+      },
+      {
+        "name": "author",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"booksub\"]/a[1]/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name":"imgUrl",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]/div[@class=\"book_cover\"]/p/a/img/@src"],
+        "pointActionType": "02"
+      },
+      {
+        "name": "description",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"info_con\"]/p/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name" : "chapterListLinks",
+        "stripType" : "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"book_btn\"]/div[@class=\"list\"]/a/@href"],
+        "pointActionType": "01",
+        "nextPageType": "CHAPTERLIST"
+      }
+    ],
+    "CHAPTERLIST": [
+      {
+        "name" : "bookName",
+        "stripType": "300",
+        "stripParams": ["bookName"],
+        "pointActionType": "03",
+        "requestRef": "chapterLinks"
+      },
+      {
+        "name" : "bookStyle",
+        "stripType": "300",
+        "stripParams": ["bookStyle"],
+        "pointActionType": "03",
+        "requestRef": "chapterLinks"
+      },
+      {
+        "name": "chapterNameList",
+        "stripType": "103",
+        "stripParams": ["//*[@id=\"chapterListPanel\"]/div[@class=\"booklist\"]/table/tbody", "/tbody//td/a/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name": "chapterLinks",
+        "stripType": "104",
+        "stripParams": ["//*[@id=\"chapterListPanel\"]/div[@class=\"booklist\"]/table/tbody", "/tbody//td/a/@href"],
+        "pointActionType": "01",
+        "nextPageType": "CHAPTERCONTENT"
+      }
+    ],
+    "CHAPTERCONTENT": [
+      {
+        "name": "chapterTitle",
+        "stripType": "100",
+        "stripParams": ["//*[@id=\"uiContentPanel\"]/div[4]/h1/em/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name": "chapterContent",
+        "stripType": "100",
+        "stripParams": ["//*[@id=\"chapterContent\"]/text()"],
+        "pointActionType": "02"
+      }
+    ]
+  }
+}

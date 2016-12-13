@@ -29,6 +29,8 @@ public class Config {
 
     public static String CRAWLSITE ;
 
+    public static String STORAGE_DIR ;
+
     static {
         Properties properties = new Properties();
         InputStream in = Config.class.getClassLoader().getResourceAsStream("config.properties");
@@ -45,6 +47,8 @@ public class Config {
             CHAPTERLIST_ISUSEVOLUME = Boolean.parseBoolean(properties.getProperty("book.chapterlist.isUseVolume"));
 
             CRAWLSITE = properties.getProperty("site.config.name", "");
+
+            STORAGE_DIR = properties.getProperty("storage.dir", "");
 
             BOOK_STYLE_ENABLE = Boolean.parseBoolean(properties.getProperty("book.style.enable"));
 

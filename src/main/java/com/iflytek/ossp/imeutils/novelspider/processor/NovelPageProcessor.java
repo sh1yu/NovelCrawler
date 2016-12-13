@@ -4,6 +4,7 @@ import com.iflytek.ossp.imeutils.novelspider.entity.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.org.mozilla.javascript.internal.NativeArray;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.ResultItems;
@@ -11,6 +12,10 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
@@ -193,19 +198,35 @@ public class NovelPageProcessor implements PageProcessor {
                 }
                 return items2;
             case StripType.HTML_XPATH_LIST_FLATEN:
-                List<String> block = page.getHtml().xpath(params.get(0)).all();
+                List<String> list = page.getHtml().xpath(params.get(0)).all();
                 StringBuilder builder = new StringBuilder();
-                if(block == null) {
+                if(list == null) {
                     return "";
                 }
-                for(String str2 : block) {
+                for(String str2 : list) {
                     builder.append(str2);
                 }
                 return builder.toString();
+            case StripType.HTML_XPATH_BLOCK_FLATLINKS_REGEX:
+                return page.getHtml().xpath(params.get(0)).links().regex(params.get(1), Integer.parseInt(params.get(2))).all();
+
             case StripType.URL_REGEX:
                 return page.getUrl().toString().replaceAll(params.get(0), params.get(1));
             case StripType.PAGE_FIELD_REF:
                 return page.getResultItems().get(params.get(0));
+            case StripType.RUNJS_NOPARAM_STRLIST:
+                try {
+                    ScriptEngineManager manager = new ScriptEngineManager();
+                    ScriptEngine engine = manager.getEngineByName("JavaScript");
+                    engine.eval(params.get(0));
+                    NativeArray result = (NativeArray) ((Invocable)engine).invokeFunction(params.get(1));
+                    List<String> r = new LinkedList<>();
+                    //noinspection unchecked
+                    r.addAll(result);
+                    return r;
+                } catch (ScriptException | NoSuchMethodException e) {
+                    return new LinkedList<>();
+                }
             default:
                 return null;
         }
