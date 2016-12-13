@@ -247,6 +247,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
 
         //排除没有内容的章节
         if(StringUtils.isBlank(bookName) || StringUtils.isBlank(chapterTitle) || StringUtils.isBlank(chapterContent)) {
+            LOGGER.warn("章节页未爬取到内容！bookName:" + bookName );
             return;
         }
 
