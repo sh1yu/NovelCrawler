@@ -258,7 +258,7 @@ public class NovelPageProcessor implements PageProcessor {
 
             //当前类型配置了，数目超过了配置值时过滤掉
             return Config.BOOK_STYLE_NUMBER.get(bookStyle) != 0
-                    && count.getAndIncrement() > Config.BOOK_STYLE_NUMBER.get(bookStyle);
+                    && count.incrementAndGet() > Config.BOOK_STYLE_NUMBER.get(bookStyle);
         }
 
 

@@ -67,8 +67,8 @@
       },
       {
         "name" : "chapterListLinks",
-        "stripType" : "100",
-        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"book_btn\"]/div[@class=\"list\"]/a/@href"],
+        "stripType" : "106",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"book_btn\"]/span[@class=\"list\"]", "http://book\\.zongheng\\.com/showchapter/\\d+\\.html", "0"],
         "pointActionType": "01",
         "nextPageType": "CHAPTERLIST"
       }
@@ -111,8 +111,8 @@
       },
       {
         "name": "chapterContent",
-        "stripType": "100",
-        "stripParams": ["//*[@id=\"chapterContent\"]/text()"],
+        "stripType": "105",
+        "stripParams": ["//*[@id=\"chapterContent\"]/p"],
         "pointActionType": "02"
       }
     ]
