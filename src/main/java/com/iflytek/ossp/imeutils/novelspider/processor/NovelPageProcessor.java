@@ -4,7 +4,6 @@ import com.iflytek.ossp.imeutils.novelspider.entity.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.org.mozilla.javascript.internal.NativeArray;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.ResultItems;
@@ -43,7 +42,7 @@ public class NovelPageProcessor implements PageProcessor {
 
 
 
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(50);
+    private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
 
     private PageRule rule ;
 
@@ -219,11 +218,13 @@ public class NovelPageProcessor implements PageProcessor {
                     ScriptEngineManager manager = new ScriptEngineManager();
                     ScriptEngine engine = manager.getEngineByName("JavaScript");
                     engine.eval(params.get(0));
-                    NativeArray result = (NativeArray) ((Invocable)engine).invokeFunction(params.get(1));
-                    List<String> r = new LinkedList<>();
+
                     //noinspection unchecked
-                    r.addAll(result);
-                    return r;
+                    List<String> originresult = (List<String>) ((Invocable)engine).invokeFunction(params.get(1));
+                    List<String> result = new LinkedList<>();
+                    result.addAll(originresult);
+                    return result;
+
                 } catch (ScriptException | NoSuchMethodException e) {
                     return new LinkedList<>();
                 }

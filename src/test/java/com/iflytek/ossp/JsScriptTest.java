@@ -1,11 +1,10 @@
 package com.iflytek.ossp;
 
-import sun.org.mozilla.javascript.internal.NativeArray;
-
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,7 +25,8 @@ public class JsScriptTest {
 
             engine.eval(jscript);
 
-            NativeArray result = (NativeArray) ((Invocable)engine).invokeFunction("run");
+            //noinspection unchecked
+            List<String>  result = (List<String> ) ((Invocable)engine).invokeFunction("run");
 
             List<String> r = new LinkedList<>();
             //noinspection unchecked
@@ -37,6 +37,9 @@ public class JsScriptTest {
         } catch (ScriptException | NoSuchMethodException e) {
             e.printStackTrace();
         }
+
+        System.out.println(File.separator);
+        System.out.println(File.pathSeparator);
     }
 }
 

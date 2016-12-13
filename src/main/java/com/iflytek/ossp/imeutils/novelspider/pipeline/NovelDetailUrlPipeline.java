@@ -69,13 +69,13 @@ public class NovelDetailUrlPipeline implements Pipeline{
 
         String fileDirStr;
         if(Config.BOOK_STYLE_ENABLE && StringUtils.isNotEmpty(bookStyle)) {
-            File styleDir = new File(storagePath+"\\"+StringUtil.filterInvalidFileNameStr(bookStyle));
+            File styleDir = new File(storagePath + File.separator + StringUtil.filterInvalidFileNameStr(bookStyle));
             if(! styleDir.exists() && ! styleDir.mkdir()) {
                 LOGGER.warn("文件夹"+StringUtil.filterInvalidFileNameStr(bookStyle)+"创建不成功");
             }
-            fileDirStr = storagePath+"\\"+StringUtil.filterInvalidFileNameStr(bookStyle)+"\\"+cleanbookname;
+            fileDirStr = storagePath+File.separator+StringUtil.filterInvalidFileNameStr(bookStyle)+File.separator+cleanbookname;
         } else {
-            fileDirStr = storagePath+"\\" + cleanbookname;
+            fileDirStr = storagePath+File.separator + cleanbookname;
         }
         File bookdir = new File(fileDirStr);
         if(bookdir.exists()) {
@@ -92,7 +92,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
         OutputStream outputStream = null;
         try {
             inputStream = new URL(imgurl).openStream();
-            outputStream = new FileOutputStream(new File(fileDirStr + "\\封面.jpg"));
+            outputStream = new FileOutputStream(new File(fileDirStr + File.separator +"封面.jpg"));
             byte[] buf = new byte[1024];
             int len;
             while ((len = inputStream.read(buf)) != -1) {
@@ -126,7 +126,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
 
 
         try {
-            outputStream = new FileOutputStream(new File(fileDirStr + "\\info.json"));
+            outputStream = new FileOutputStream(new File(fileDirStr + File.separator +"info.json"));
             PrintWriter writer = new PrintWriter(outputStream);
             writer.println(stringBuilder.toString());
             writer.close();
@@ -143,7 +143,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
         }
 
         //章节文件夹
-        File chapterDir = new File(fileDirStr + "\\章节");
+        File chapterDir = new File(fileDirStr + File.separator + "章节");
         if(!chapterDir.mkdir()) {
             LOGGER.error("创建"+cleanbookname+"的章节文件夹失败！");
         }
@@ -168,16 +168,16 @@ public class NovelDetailUrlPipeline implements Pipeline{
 
         String fileDirStr;
         if(Config.BOOK_STYLE_ENABLE && StringUtils.isNotEmpty(bookStyle)) {
-            fileDirStr = storagePath+"\\"+StringUtil.filterInvalidFileNameStr(bookStyle)+"\\"+cleanbookname;
+            fileDirStr = storagePath+File.separator+StringUtil.filterInvalidFileNameStr(bookStyle)+File.separator+cleanbookname;
         } else {
-            fileDirStr = storagePath+"\\" + cleanbookname;
+            fileDirStr = storagePath+ File.separator + cleanbookname;
         }
 
-        File chapterjson = new File(fileDirStr +"\\章节.json");
+        File chapterjson = new File(fileDirStr+ File.separator +"章节.json");
         JSONArray jsonArray = new JSONArray();
 
         if(chapterjson.exists()) {
-            String jsonstr = ReadFile.readAll(fileDirStr + "\\章节.json", "utf-8");
+            String jsonstr = ReadFile.readAll(fileDirStr + File.separator + "章节.json", "utf-8");
             jsonArray = JSON.parseArray(jsonstr);
         }
 
@@ -253,18 +253,18 @@ public class NovelDetailUrlPipeline implements Pipeline{
 
         String fileDirStr;
         if(Config.BOOK_STYLE_ENABLE && StringUtils.isNotEmpty(bookStyle)) {
-            fileDirStr = storagePath+"\\"+StringUtil.filterInvalidFileNameStr(bookStyle)+"\\"+cleanBookName;
+            fileDirStr = storagePath+File.separator+StringUtil.filterInvalidFileNameStr(bookStyle)+File.separator+cleanBookName;
         } else {
-            fileDirStr = storagePath+"\\" + cleanBookName;
+            fileDirStr = storagePath+ File.separator + cleanBookName;
         }
 
 
-        File chapterDir = new File(fileDirStr + "\\章节");
+        File chapterDir = new File(fileDirStr + File.separator +"章节");
         if(!chapterDir.exists()) {
             return;
         }
 
-        File chapter = new File(fileDirStr + "\\章节\\" + cleanChapterTitle + ".txt");
+        File chapter = new File(fileDirStr + File.separator +"章节"+ File.separator + cleanChapterTitle + ".txt");
         try {
             PrintWriter writer = new PrintWriter(new FileOutputStream(chapter));
             writer.println(chapterContent);
