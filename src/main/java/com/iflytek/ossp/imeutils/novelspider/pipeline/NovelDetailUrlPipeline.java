@@ -96,13 +96,13 @@ public class NovelDetailUrlPipeline implements Pipeline{
         try {
             HttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(imgurl);
-            RequestConfig.Builder configBuilder = RequestConfig.custom().setConnectTimeout(200).setSocketTimeout(1000);
+            RequestConfig.Builder configBuilder = RequestConfig.custom().setConnectTimeout(2000).setSocketTimeout(5000);
             httpGet.setConfig(configBuilder.build());
             HttpResponse response = httpClient.execute(httpGet);
             outputStream = new FileOutputStream(new File(fileDirStr + File.separator +"封面.jpg"));
             response.getEntity().writeTo(outputStream);
         } catch (IOException e) {
-            LOGGER.error("保存封面失败！");
+            LOGGER.error("保存封面失败！", e);
         } finally {
             if (outputStream != null) {
                 try {
