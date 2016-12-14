@@ -96,7 +96,8 @@ public class NovelDetailUrlPipeline implements Pipeline{
         try {
             HttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(imgurl);
-            RequestConfig.Builder configBuilder = RequestConfig.custom().setConnectTimeout(2000).setSocketTimeout(5000);
+            RequestConfig.Builder configBuilder = RequestConfig.custom()
+                    .setConnectTimeout(Config.BOOK_IMGURL_TIMEOUT).setSocketTimeout(Config.BOOK_IMGURL_TIMEOUT);
             httpGet.setConfig(configBuilder.build());
             HttpResponse response = httpClient.execute(httpGet);
             outputStream = new FileOutputStream(new File(fileDirStr + File.separator +"封面.jpg"));

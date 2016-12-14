@@ -42,7 +42,8 @@ public class NovelPageProcessor implements PageProcessor {
 
 
 
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
+    private Site site = Site.me().setRetryTimes(Config.PAGE_DOWNLOAD_RETRYTIMES)
+            .setSleepTime(Config.PAGE_DOWNLOAD_SLEEPTIME).setTimeOut(Config.PAGE_DOWNLOAD_TIMEOUT);
 
     private PageRule rule ;
 

@@ -19,6 +19,12 @@ public class Config {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Config.class);
 
+    public static int PAGE_DOWNLOAD_TIMEOUT = 5000;
+    public static int PAGE_DOWNLOAD_RETRYTIMES = 3;
+    public static int PAGE_DOWNLOAD_SLEEPTIME = 500;
+
+    public static int BOOK_IMGURL_TIMEOUT = 5000;
+
     public static int BOOKLIST_NUMBER_MAXIMUN = 0;
     public static int BOOK_NUMBER_MAXIMUN = 0;
 
@@ -41,6 +47,12 @@ public class Config {
         }
 
         try {
+
+            PAGE_DOWNLOAD_TIMEOUT = Integer.parseInt(properties.getProperty("page.download.timeout"));
+            PAGE_DOWNLOAD_RETRYTIMES = Integer.parseInt(properties.getProperty("page.download.retrytimes"));
+            PAGE_DOWNLOAD_SLEEPTIME = Integer.parseInt(properties.getProperty("page.download.sleeptime"));
+            BOOK_IMGURL_TIMEOUT = Integer.parseInt(properties.getProperty("book.imgurl.timeout"));
+
             BOOK_NUMBER_MAXIMUN = Integer.parseInt(properties.getProperty("book.number.maximum"));
             BOOKLIST_NUMBER_MAXIMUN = Integer.parseInt(properties.getProperty("bookList.number.maximum"));
 
