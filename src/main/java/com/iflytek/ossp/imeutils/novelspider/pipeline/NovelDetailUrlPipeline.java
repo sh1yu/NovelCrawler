@@ -8,6 +8,11 @@ import com.iflytek.ossp.imeutils.novelspider.entity.Config;
 import com.iflytek.ossp.imeutils.novelspider.entity.PageType;
 import com.iflytek.ossp.imeutils.novelspider.utils.StringUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.ResultItems;
@@ -15,7 +20,6 @@ import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 
 import java.io.*;
-import java.net.URL;
 import java.util.List;
 
 /** 处理所有小说详情页Url的pipeline
@@ -63,7 +67,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
         String description = resultItems.get("description");
         String imgurl = resultItems.get("imgUrl");
 
-        System.out.println("书名："+bookname + ", 作者："+ author + ", 简介："+ description + ", 封面图片地址："+ imgurl);
+        LOGGER.debug("书名："+bookname + ", 作者："+ author + ", 简介："+ description + ", 封面图片地址："+ imgurl);
 
         String cleanbookname = StringUtil.filterInvalidFileNameStr(bookname);
 
@@ -88,26 +92,18 @@ public class NovelDetailUrlPipeline implements Pipeline{
         }
 
         //保存封面
-        InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
-            inputStream = new URL(imgurl).openStream();
+            HttpClient httpClient = HttpClients.createDefault();
+            HttpGet httpGet = new HttpGet(imgurl);
+            RequestConfig.Builder configBuilder = RequestConfig.custom().setConnectTimeout(200).setSocketTimeout(1000);
+            httpGet.setConfig(configBuilder.build());
+            HttpResponse response = httpClient.execute(httpGet);
             outputStream = new FileOutputStream(new File(fileDirStr + File.separator +"封面.jpg"));
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = inputStream.read(buf)) != -1) {
-                outputStream.write(buf, 0, len);
-            }
+            response.getEntity().writeTo(outputStream);
         } catch (IOException e) {
             LOGGER.error("保存封面失败！");
         } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
             if (outputStream != null) {
                 try {
                     outputStream.close();
