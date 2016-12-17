@@ -16,7 +16,7 @@ import java.io.IOException;
 public class HttpTest {
     public static void main(String[] args) throws IOException {
         HttpClient client = HttpClients.createDefault();
-        HttpGet get = new HttpGet("http://book.zongheng.com/quanben/c0/c0/b9/u1/p2/v0/s1/t0/ALL.html");
+        HttpGet get = new HttpGet("http://read.qidian.com/chapter/LHNSTU33MdCNURuUMJnHnQ2/8pKMCo5COu_4p8iEw--PPw2");
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectTimeout(500).setConnectionRequestTimeout(500)
                 .setSocketTimeout(1000).build();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
 
-    <property name="baseLogDir" value="../logs" />
+    <property name="baseLogDir" value="logs" />
 
     <appender name="DEBUGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${baseLogDir}/debug.log</file>
@@ -46,9 +46,19 @@
         </encoder>
     </appender>
 
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <root level="debug">
         <appender-ref ref="DEBUGFILE" />
         <appender-ref ref="INFOFILE" />
         <appender-ref ref="WARNFILE" />
+        <appender-ref ref="CONSOLE" />
     </root>
 </configuration>

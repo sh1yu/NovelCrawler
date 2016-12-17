@@ -30,6 +30,6 @@ public class NovelSpiderStartup {
         Spider.create(new NovelPageProcessor(rule))
                 .addPipeline(new NovelDetailUrlPipeline())
                 .addRequest(seedRequest)
-                .thread(8).run();
+                .thread(Config.SPIDER_THREADNUMBER).run();
     }
 }

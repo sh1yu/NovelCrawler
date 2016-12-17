@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
+import us.codecraft.webmagic.utils.UrlUtils;
 
 import java.io.*;
 import java.util.List;
@@ -60,12 +61,14 @@ public class NovelDetailUrlPipeline implements Pipeline{
             return;
         }
 
+        String currentUrl = resultItems.get("url");
+
         String bookStyle = resultItems.get("bookStyle");
 
         String bookname = resultItems.get("bookName");
         String author = resultItems.get("author");
         String description = resultItems.get("description");
-        String imgurl = resultItems.get("imgUrl");
+        String imgurl = UrlUtils.canonicalizeUrl((String)resultItems.get("imgUrl"), currentUrl);
 
         LOGGER.debug("书名："+bookname + ", 作者："+ author + ", 简介："+ description + ", 封面图片地址："+ imgurl);
 
@@ -143,6 +146,11 @@ public class NovelDetailUrlPipeline implements Pipeline{
         File chapterDir = new File(fileDirStr + File.separator + "章节");
         if(!chapterDir.mkdir()) {
             LOGGER.error("创建"+cleanbookname+"的章节文件夹失败！");
+        }
+
+        //如果包含chapterNameList，则执行章节目录的保存操作
+        if(resultItems.get("chapterNameList") != null) {
+            processChapterListPage(resultItems);
         }
     }
 
@@ -234,6 +242,8 @@ public class NovelDetailUrlPipeline implements Pipeline{
             return;
         }
 
+        String currentUrl = resultItems.get("url");
+
         String bookStyle = resultItems.get("bookStyle");
         String bookName = resultItems.get("bookName");
         String chapterTitle = resultItems.get("chapterTitle");
@@ -244,7 +254,7 @@ public class NovelDetailUrlPipeline implements Pipeline{
 
         //排除没有内容的章节
         if(StringUtils.isBlank(bookName) || StringUtils.isBlank(chapterTitle) || StringUtils.isBlank(chapterContent)) {
-            LOGGER.warn("章节页未爬取到内容！bookName:" + bookName );
+            LOGGER.warn("章节页未爬取到内容！url:" + currentUrl );
             return;
         }
 

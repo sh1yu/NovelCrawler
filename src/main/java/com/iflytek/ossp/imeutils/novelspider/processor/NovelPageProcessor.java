@@ -60,6 +60,7 @@ public class NovelPageProcessor implements PageProcessor {
         //保存上一级传递下来的信息
         for(String key : page.getRequest().getExtras().keySet()) {
             page.putField(key, page.getRequest().getExtra(key));
+            page.putField("url", page.getUrl().toString());
         }
 
         PageType pageType = page.getResultItems().get("pageType");

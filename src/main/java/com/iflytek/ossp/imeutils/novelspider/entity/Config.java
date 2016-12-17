@@ -19,6 +19,8 @@ public class Config {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Config.class);
 
+    public static int SPIDER_THREADNUMBER = 1;
+
     public static int PAGE_DOWNLOAD_TIMEOUT = 5000;
     public static int PAGE_DOWNLOAD_RETRYTIMES = 3;
     public static int PAGE_DOWNLOAD_SLEEPTIME = 500;
@@ -47,6 +49,8 @@ public class Config {
         }
 
         try {
+
+            SPIDER_THREADNUMBER = Integer.parseInt(properties.getProperty("spider.thread.number"));
 
             PAGE_DOWNLOAD_TIMEOUT = Integer.parseInt(properties.getProperty("page.download.timeout"));
             PAGE_DOWNLOAD_RETRYTIMES = Integer.parseInt(properties.getProperty("page.download.retrytimes"));
