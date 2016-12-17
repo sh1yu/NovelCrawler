@@ -23,6 +23,9 @@ public class StripType {
     /*** html xpath提取 List<String>，之后列表转为一个字符串 参数个数为1 xpath 返回String*/
     public static final String HTML_XPATH_LIST_FLATEN = "105";
 
+    /*** html区块列表下的扁平链接列表，之后正则匹配 参数个数为3 xpath1 regex group 返回List<String>*/
+    public static final String HTML_XPATH_BLOCK_FLATLINKS_REGEX = "106";
+
 
 
     /*** url增则提取， 参数个数为2 regex replacement 返回String*/
@@ -32,4 +35,7 @@ public class StripType {
 
     /*** 引用page field参数 返回Object*/
     public static final String PAGE_FIELD_REF = "300";
+
+    /*** 运行没有参数的JS函数, JS无参，配置项两个参数： js functionName 返回字符串list**/
+    public static final String RUNJS_NOPARAM_STRLIST = "400";
 }

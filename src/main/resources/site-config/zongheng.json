@@ -1,27 +1,21 @@
 {
-  "seedUrl": "http://www.hongxiu.com/mianfei/",
+  "seedUrl": "http://book.zongheng.com/quanben/c0/c0/b9/u1/p1/v0/s1/t0/ALL.html",
   "LevelStripRules": {
     "SEED" : [
       {
         "name" : "bookListLinks",
-        "stripType" : "102",
-        "stripParams": ["http://quanben\\.hongxiu\\.com/free1\\.html", "0"],
+        "stripType" : "400",
+        "stripParams": ["function run() {var s = \"http://book.zongheng.com/quanben/c0/c0/b9/u1/p{X}/v0/s1/t0/ALL.html\";var r = [];for(var i=1; i<=29; i++) {r.push(s.replace(/{X}/g, i));}return r;}", "run"],
         "pointActionType": "01",
         "nextPageType": "BOOKLIST"
       }
     ],
     "BOOKLIST": [
       {
-        "name" : "bookListLinks",
-        "stripType" : "102",
-        "stripParams": ["http://quanben\\.hongxiu\\.com/free(([0-9]\\.html)|(10\\.html)|(\\.asp\\?page=.*))", "0"],
-        "pointActionType": "01",
-        "nextPageType": "BOOKLIST"
-      },
-      {
         "name" : "bookInfoLinks",
-        "stripType" : "102",
-        "stripParams": ["http://novel\\.hongxiu\\.com/a/\\d+", "0"],
+        "stripType" : "106",
+        "stripParams": ["/html/body//div[@class=\"two_main\"]//ul[@class=\"main_con\"]",
+          "http://book\\.zongheng\\.com/book/\\d+\\.html", "0"],
         "pointActionType": "01",
         "nextPageType": "BOOKINFO"
       }
@@ -30,51 +24,51 @@
       {
         "name" : "bookName",
         "stripType": "100",
-        "stripParams": ["//*[@id=\"htmltimu\"]/text()"],
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/h1/a/text()"],
         "pointActionType": "02"
       },
       {
         "name" : "bookName",
         "stripType": "100",
-        "stripParams": ["//*[@id=\"htmltimu\"]/text()"],
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/h1/a/text()"],
         "pointActionType": "03",
         "requestRef": "chapterListLinks"
       },
       {
         "name" : "bookStyle",
-        "stripType": "105",
-        "stripParams": ["//*[@id=\"htmlpos\"]/a/text()"],
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"booksub\"]/a[2]/text()"],
         "pointActionType": "02"
       },
       {
         "name" : "bookStyle",
-        "stripType": "105",
-        "stripParams": ["//*[@id=\"htmlpos\"]/a/text()"],
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"booksub\"]/a[2]/text()"],
         "pointActionType": "03",
         "requestRef": "chapterListLinks"
       },
       {
         "name": "author",
         "stripType": "100",
-        "stripParams": ["//*[@id=\"htmlzuozhe\"]/text()"],
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"booksub\"]/a[1]/text()"],
         "pointActionType": "02"
       },
       {
         "name":"imgUrl",
         "stripType": "100",
-        "stripParams": ["//*[@id=\"htmlfengmiantu\"]/@src"],
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]/div[@class=\"book_cover\"]/p/a/img/@src"],
         "pointActionType": "02"
       },
       {
         "name": "description",
         "stripType": "100",
-        "stripParams": ["//*[@id=\"htmljiashao\"]/text()"],
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"info_con\"]/p/text()"],
         "pointActionType": "02"
       },
       {
         "name" : "chapterListLinks",
-        "stripType" : "102",
-        "stripParams": ["http://novel\\.hongxiu\\.com/a/\\d+/list\\.html", "0"],
+        "stripType" : "106",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main\"]//div[@class=\"status\"]/div[@class=\"book_btn\"]/span[@class=\"list\"]", "http://book\\.zongheng\\.com/showchapter/\\d+\\.html", "0"],
         "pointActionType": "01",
         "nextPageType": "CHAPTERLIST"
       }
@@ -97,13 +91,13 @@
       {
         "name": "chapterNameList",
         "stripType": "103",
-        "stripParams": ["//*[@id=\"htmlList\"]/dl/dd/ul", "/ul/li//a/text()"],
+        "stripParams": ["//*[@id=\"chapterListPanel\"]/div[@class=\"booklist\"]/table/tbody", "/tbody//td/a/text()"],
         "pointActionType": "02"
       },
       {
         "name": "chapterLinks",
         "stripType": "104",
-        "stripParams": ["//*[@id=\"htmlList\"]/dl/dd/ul", "/ul/li//a/@href"],
+        "stripParams": ["//*[@id=\"chapterListPanel\"]/div[@class=\"booklist\"]/table/tbody", "/tbody//td/a/@href"],
         "pointActionType": "01",
         "nextPageType": "CHAPTERCONTENT"
       }
@@ -112,13 +106,13 @@
       {
         "name": "chapterTitle",
         "stripType": "100",
-        "stripParams": ["//*[@id=\"htmltimu\"]/text()"],
+        "stripParams": ["//*[@id=\"uiContentPanel\"]/div[4]/h1/em/text()"],
         "pointActionType": "02"
       },
       {
         "name": "chapterContent",
         "stripType": "105",
-        "stripParams": ["//*[@id=\"htmlContent\"]//p"],
+        "stripParams": ["//*[@id=\"chapterContent\"]/p"],
         "pointActionType": "02"
       }
     ]

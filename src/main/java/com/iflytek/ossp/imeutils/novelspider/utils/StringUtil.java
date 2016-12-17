@@ -19,6 +19,6 @@ public class StringUtil {
         }
         return s.replace("/", "").replace("\\", "").replace("\"", "")
                 .replace("*", "").replace(":", "").replace("?", "")
-                .replace(">", "").replace("<", "").replace("|", "");
+                .replace(">", "").replace("<", "").replace("|", "").trim();
     }
 }
