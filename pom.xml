@@ -7,7 +7,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>IMEUtils</name>
+  <name>NovelCrawler</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -23,18 +23,6 @@
       </dependency>
 
       <dependency>
-          <groupId>com.iflytek</groupId>
-          <artifactId>ossp-framework-common</artifactId>
-          <version>1.0.4-SNAPSHOT</version>
-          <exclusions>
-              <exclusion>
-                  <groupId>log4j</groupId>
-                  <artifactId>log4j</artifactId>
-              </exclusion>
-          </exclusions>
-      </dependency>
-
-      <dependency>
           <groupId>us.codecraft</groupId>
           <artifactId>webmagic-core</artifactId>
           <version>0.5.3</version>
@@ -42,6 +30,10 @@
               <exclusion>
                   <groupId>log4j</groupId>
                   <artifactId>log4j</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>slf4j-log4j12</artifactId>
               </exclusion>
           </exclusions>
       </dependency>
@@ -57,6 +49,80 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
+            </plugin>
+
+
+             <!--appassembler plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.7</version>
+                <configuration>
+                    <repositoryLayout>flat</repositoryLayout>
+                    <!-- 在脚本的classpath开始增加配置文件路径 -->
+                    <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+                    <!-- 生成配置文件路径 -->
+                    <configurationDirectory>conf</configurationDirectory>
+                    <!-- 配置文件原路径 -->
+                    <configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
+                    <!-- 从原配置文件复制 -->
+                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                    <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+
+                    <!-- 生成哪几种平台的脚本 -->
+                    <platforms>
+                        <platform>unix</platform>
+                    </platforms>
+                    <!-- 生成脚本的后缀 -->
+                    <binFileExtensions>
+                        <unix>.sh</unix>
+                    </binFileExtensions>
+                    <!-- 使用classpath通配符 -->
+                    <useWildcardClassPath>true</useWildcardClassPath>
+                    <!-- JVM参数 -->
+                    <extraJvmArguments>-Xms4096m</extraJvmArguments>
+                    <!-- 依赖包目录 -->
+                    <repositoryName>lib</repositoryName>
+                    <programs>
+                        <program>
+                            <!-- 启动的主class -->
+                            <mainClass>org.psy.practice.novelspider.NovelSpiderStartup</mainClass>
+                            <name>novelSpider</name>
+                        </program>
+                    </programs>
+                </configuration>
+                <!-- 绑定生命周期 -->
+                <executions>
+                    <execution>
+                        <id>appassembler</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- assembly plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- testng plugin -->

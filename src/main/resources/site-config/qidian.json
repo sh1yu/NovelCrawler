@@ -1,0 +1,97 @@
+{
+  "seedUrl": "http://fin.qidian.com",
+  "LevelStripRules": {
+    "SEED" : [
+      {
+        "name" : "bookListLinks",
+        "stripType" : "400",
+        "stripParams": ["function run() {var s = \"http://fin.qidian.com/?size=-1&sign=-1&tag=-1&chanId=-1&subCateId=-1&orderId=&update=-1&page={X}&month=-1&style=1&vip=0\";var r = [];for(var i=1; i<=741; i++) {r.push(s.replace(/{X}/g, i));}return r;}", "run"],
+        "pointActionType": "01",
+        "nextPageType": "BOOKLIST"
+      }
+    ],
+    "BOOKLIST": [
+      {
+        "name" : "bookInfoLinks",
+        "stripType" : "106",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]//div[@class=\"main-content-wrap\"]/div[@class=\"all-book-list\"]",
+          "http://book\\.qidian\\.com/info/\\d+", "0"],
+        "pointActionType": "01",
+        "nextPageType": "BOOKINFO"
+      }
+    ],
+    "BOOKINFO": [
+      {
+        "name" : "bookName",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]/div[@class=\"book-detail-wrap\"]/div[@class=\"book-information\"]/div[@class=\"book-info\"]/h1/em/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name" : "bookName",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]/div[@class=\"book-detail-wrap\"]/div[@class=\"book-information\"]/div[@class=\"book-info\"]/h1/em/text()"],
+        "pointActionType": "03",
+        "requestRef": "chapterLinks"
+      },
+      {
+        "name" : "bookStyle",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]/div[@class=\"crumbs-nav\"]/span/a[2]/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name" : "bookStyle",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]/div[@class=\"crumbs-nav\"]/span/a[2]/text()"],
+        "pointActionType": "03",
+        "requestRef": "chapterLinks"
+      },
+      {
+        "name": "author",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]/div[@class=\"book-detail-wrap\"]/div[@class=\"book-information\"]/div[@class=\"book-info\"]/h1/span/a/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name":"imgUrl",
+        "stripType": "100",
+        "stripParams": ["//*[@id=\"bookImg\"]/img/@src"],
+        "pointActionType": "02"
+      },
+      {
+        "name": "description",
+        "stripType": "100",
+        "stripParams": ["/html/body/div[@class=\"wrap\"]/div[@class=\"book-detail-wrap\"]/div[@class=\"book-content-wrap\"]/div[@class=\"left-wrap\"]/div[@class=\"book-intro\"]/p[1]/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name": "chapterNameList",
+        "stripType": "103",
+        "stripParams": ["//*[@id=\"j-catalogWrap\"]/div[@class=\"volume-wrap\"]", "/div/div[@class=\"volume\"]/ul/li/a/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name": "chapterLinks",
+        "stripType": "104",
+        "stripParams": ["//*[@id=\"j-catalogWrap\"]/div[@class=\"volume-wrap\"]", "/div/div[@class=\"volume\"]/ul/li/a/@href"],
+        "pointActionType": "01",
+        "nextPageType": "CHAPTERCONTENT"
+      }
+    ],
+    "CHAPTERCONTENT": [
+      {
+        "name": "chapterTitle",
+        "stripType": "100",
+        "stripParams": ["//*[@id=\"j_chapterBox\"]/div[@class=\"text-wrap\"]/div[@class=\"main-text-wrap\"]/div[@class=\"text-head\"]/h3/text()"],
+        "pointActionType": "02"
+      },
+      {
+        "name": "chapterContent",
+        "stripType": "105",
+        "stripParams": ["//*[@id=\"j_chapterBox\"]/div[@class=\"text-wrap\"]/div[@class=\"main-text-wrap\"]/div[@class=\"read-content\"]/p"],
+        "pointActionType": "02"
+      }
+    ]
+  }
+}
