@@ -1,4 +1,4 @@
-package com.iflytek.ossp.imeutils.novelspider.entity;
+package com.iflytek.ossp.novelcrawler.novelspider.entity;
 
 /** 页面类型
  * Created by sypeng on 2016/12/8.

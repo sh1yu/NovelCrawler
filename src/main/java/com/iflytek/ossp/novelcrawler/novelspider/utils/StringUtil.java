@@ -1,4 +1,4 @@
-package com.iflytek.ossp.imeutils.novelspider.utils;
+package com.iflytek.ossp.novelcrawler.novelspider.utils;
 
 import org.apache.commons.lang.StringUtils;
 

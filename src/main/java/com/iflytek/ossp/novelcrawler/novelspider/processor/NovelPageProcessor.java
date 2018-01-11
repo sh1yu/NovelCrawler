@@ -1,6 +1,6 @@
-package com.iflytek.ossp.imeutils.novelspider.processor;
+package com.iflytek.ossp.novelcrawler.novelspider.processor;
 
-import com.iflytek.ossp.imeutils.novelspider.entity.*;
+import com.iflytek.ossp.novelcrawler.novelspider.entity.*;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.ResultItems;

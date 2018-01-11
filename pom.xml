@@ -59,79 +59,6 @@
                 </configuration>
             </plugin>
 
-            <!-- appassembler plugin -->
-            <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>appassembler-maven-plugin</artifactId>-->
-                <!--<version>1.7</version>-->
-                <!--<configuration>-->
-                    <!--<repositoryLayout>flat</repositoryLayout>-->
-                    <!--&lt;!&ndash; 在脚本的classpath开始增加配置文件路径 &ndash;&gt;-->
-                    <!--<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>-->
-                    <!--&lt;!&ndash; 生成配置文件路径 &ndash;&gt;-->
-                    <!--<configurationDirectory>conf</configurationDirectory>-->
-                    <!--&lt;!&ndash; 配置文件原路径 &ndash;&gt;-->
-                    <!--<configurationSourceDirectory>src/main/resources</configurationSourceDirectory>-->
-                    <!--&lt;!&ndash; 从原配置文件复制 &ndash;&gt;-->
-                    <!--<copyConfigurationDirectory>true</copyConfigurationDirectory>-->
-                    <!--<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>-->
-
-                    <!--&lt;!&ndash; 生成哪几种平台的脚本 &ndash;&gt;-->
-                    <!--<platforms>-->
-                        <!--<platform>unix</platform>-->
-                    <!--</platforms>-->
-                    <!--&lt;!&ndash; 生成脚本的后缀 &ndash;&gt;-->
-                    <!--<binFileExtensions>-->
-                        <!--<unix>.sh</unix>-->
-                    <!--</binFileExtensions>-->
-                    <!--&lt;!&ndash; 使用classpath通配符 &ndash;&gt;-->
-                    <!--<useWildcardClassPath>true</useWildcardClassPath>-->
-                    <!--&lt;!&ndash; JVM参数 &ndash;&gt;-->
-                    <!--<extraJvmArguments>-Xms4096m</extraJvmArguments>-->
-                    <!--&lt;!&ndash; 依赖包目录 &ndash;&gt;-->
-                    <!--<repositoryName>lib</repositoryName>-->
-                    <!--<programs>-->
-                        <!--<program>-->
-                            <!--&lt;!&ndash; 启动的主class &ndash;&gt;-->
-                            <!--<mainClass>com.iflytek.ossp.incrementalspider.SpiderIncrementalServiceStartUp</mainClass>-->
-                            <!--<name>start-incremental</name>-->
-                        <!--</program>-->
-                    <!--</programs>-->
-                <!--</configuration>-->
-                <!--&lt;!&ndash; 绑定生命周期 &ndash;&gt;-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>appassembler</id>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>assemble</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
-            <!-- assembly plugin -->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-assembly-plugin</artifactId>-->
-                <!--<version>2.6</version>-->
-                <!--<configuration>-->
-                    <!--<appendAssemblyId>false</appendAssemblyId>-->
-                    <!--<descriptors>-->
-                        <!--<descriptor>assembly.xml</descriptor>-->
-                    <!--</descriptors>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>make-assembly</id>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>single</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
             <!-- testng plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -149,37 +76,4 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>58.38 nexus</id>
-            <name>58.38 nexus</name>
-            <url>http://192.168.58.38:8081/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>ossp-maven-center</id>
-            <name>ossp-maven-center</name>
-            <url>http://192.168.58.38:8081/nexus/content/groups/public</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </pluginRepository>
-        <pluginRepository>
-            <id>central</id>
-            <name>Maven Plugin Repository</name>
-            <url>http://repo1.maven.org/maven2</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
 </project>

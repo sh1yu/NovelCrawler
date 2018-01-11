@@ -1,4 +1,4 @@
-package com.iflytek.ossp.imeutils.novelspider.entity;
+package com.iflytek.ossp.novelcrawler.novelspider.entity;
 
 import java.util.List;
 

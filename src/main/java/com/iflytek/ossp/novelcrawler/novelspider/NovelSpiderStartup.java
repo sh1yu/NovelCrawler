@@ -1,10 +1,10 @@
-package com.iflytek.ossp.imeutils.novelspider;
+package com.iflytek.ossp.novelcrawler.novelspider;
 
-import com.iflytek.ossp.imeutils.novelspider.entity.Config;
-import com.iflytek.ossp.imeutils.novelspider.entity.PageRule;
-import com.iflytek.ossp.imeutils.novelspider.entity.PageType;
-import com.iflytek.ossp.imeutils.novelspider.pipeline.NovelDetailUrlPipeline;
-import com.iflytek.ossp.imeutils.novelspider.processor.NovelPageProcessor;
+import com.iflytek.ossp.novelcrawler.novelspider.entity.Config;
+import com.iflytek.ossp.novelcrawler.novelspider.entity.PageRule;
+import com.iflytek.ossp.novelcrawler.novelspider.entity.PageType;
+import com.iflytek.ossp.novelcrawler.novelspider.pipeline.NovelDetailUrlPipeline;
+import com.iflytek.ossp.novelcrawler.novelspider.processor.NovelPageProcessor;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Spider;
 

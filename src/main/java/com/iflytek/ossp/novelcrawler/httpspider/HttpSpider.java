@@ -1,4 +1,4 @@
-package com.iflytek.ossp.imeutils.httpspider;
+package com.iflytek.ossp.novelcrawler.httpspider;
 
 import com.iflytek.ossp.commonutils.ReadFile;
 import org.apache.commons.lang.StringUtils;

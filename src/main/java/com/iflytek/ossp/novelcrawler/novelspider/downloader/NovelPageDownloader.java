@@ -1,4 +1,4 @@
-package com.iflytek.ossp.imeutils.novelspider.downloader;
+package com.iflytek.ossp.novelcrawler.novelspider.downloader;
 
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
 

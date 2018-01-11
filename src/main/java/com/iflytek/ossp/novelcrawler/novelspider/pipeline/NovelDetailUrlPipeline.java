@@ -1,11 +1,11 @@
-package com.iflytek.ossp.imeutils.novelspider.pipeline;
+package com.iflytek.ossp.novelcrawler.novelspider.pipeline;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.iflytek.ossp.commonutils.ReadFile;
-import com.iflytek.ossp.imeutils.novelspider.entity.PageType;
-import com.iflytek.ossp.imeutils.novelspider.utils.StringUtil;
+import com.iflytek.ossp.novelcrawler.novelspider.entity.PageType;
+import com.iflytek.ossp.novelcrawler.novelspider.utils.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

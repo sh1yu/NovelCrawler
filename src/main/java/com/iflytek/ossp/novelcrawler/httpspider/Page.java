@@ -1,4 +1,4 @@
-package com.iflytek.ossp.imeutils.httpspider;
+package com.iflytek.ossp.novelcrawler.httpspider;
 
 import java.util.LinkedList;
 import java.util.List;
