@@ -7,7 +7,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>IMEUtils</name>
+  <name>NovelCrawler</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -20,22 +20,6 @@
           <artifactId>testng</artifactId>
           <version>6.9.12</version>
           <scope>test</scope>
-      </dependency>
-
-      <dependency>
-          <groupId>com.iflytek</groupId>
-          <artifactId>ossp-framework-common</artifactId>
-          <version>1.0.4-SNAPSHOT</version>
-          <exclusions>
-              <exclusion>
-                  <groupId>log4j</groupId>
-                  <artifactId>log4j</artifactId>
-              </exclusion>
-              <exclusion>
-                  <groupId>org.slf4j</groupId>
-                  <artifactId>slf4j-log4j12</artifactId>
-              </exclusion>
-          </exclusions>
       </dependency>
 
       <dependency>
@@ -66,6 +50,7 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+
 
              <!--appassembler plugin -->
             <plugin>
@@ -101,7 +86,7 @@
                     <programs>
                         <program>
                             <!-- 启动的主class -->
-                            <mainClass>com.iflytek.ossp.imeutils.novelspider.NovelSpiderStartup</mainClass>
+                            <mainClass>org.psy.practice.novelspider.NovelSpiderStartup</mainClass>
                             <name>novelSpider</name>
                         </program>
                     </programs>
@@ -157,37 +142,4 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>58.38 nexus</id>
-            <name>58.38 nexus</name>
-            <url>http://192.168.58.38:8081/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>ossp-maven-center</id>
-            <name>ossp-maven-center</name>
-            <url>http://192.168.58.38:8081/nexus/content/groups/public</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </pluginRepository>
-        <pluginRepository>
-            <id>central</id>
-            <name>Maven Plugin Repository</name>
-            <url>http://repo1.maven.org/maven2</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
