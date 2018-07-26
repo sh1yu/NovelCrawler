@@ -1,1 +1,22 @@
 language: java
+
+before_script:
+
+script:
+
+after_script:
+
+branchs:
+  only:
+  - master 
+  
+notifications:
+  email:
+    recipients:
+    - sypeng@ifytek.com
+    on_success: always
+    on_failure: always
+    
+after_success:
+
+addons:
