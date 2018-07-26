@@ -1,25 +1,25 @@
 language: java
 
 before_install:
-- sh "echo >>>>>>>>>before_install"
+- echo ">>>>>>>>>before_install"
 
-install:
-- sh "echo >>>>>>>>>install"
+#install:
+#- echo ">>>>>>>>>install"
 
 before_script:
-- sh "echo >>>>>>>>>before_script"
+- echo ">>>>>>>>>before_script"
 
 script:
-- sh "echo >>>>>>>>>script"
+- echo ">>>>>>>>>script"
 
 after_success:
-- sh "echo >>>>>>>>>after_success"
+- echo ">>>>>>>>>after_success"
 
 after_failure:
-- sh "echo >>>>>>>>>after_failure"
+- echo ">>>>>>>>>after_failure"
 
 after_script:
-- sh "echo >>>>>>>>>after_script"
+- echo ">>>>>>>>>after_script"
 
 branchs:
   only:
