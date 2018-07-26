@@ -11,6 +11,7 @@ before_script:
 
 script:
 - echo ">>>>>>>>>script"
+- ls /aaaaa
 
 after_success:
 - echo ">>>>>>>>>after_success"
