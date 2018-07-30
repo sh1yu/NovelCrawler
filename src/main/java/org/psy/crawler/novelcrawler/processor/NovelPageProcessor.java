@@ -1,7 +1,8 @@
-package org.psy.practice.novelcrawler.novelspider.processor;
+package org.psy.crawler.novelcrawler.processor;
 
 import org.apache.commons.lang3.StringUtils;
-import org.psy.practice.novelcrawler.novelspider.entity.*;
+import org.psy.crawler.novelcrawler.entity.*;
+import org.psy.crawler.novelcrawler.novelspider.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Page;

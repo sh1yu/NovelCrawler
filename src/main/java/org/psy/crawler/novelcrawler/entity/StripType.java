@@ -1,4 +1,4 @@
-package org.psy.practice.novelcrawler.novelspider.entity;
+package org.psy.crawler.novelcrawler.entity;
 
 /** 抽取规则类型
  * Created by sypeng on 2016/12/9.

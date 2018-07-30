@@ -1,10 +1,10 @@
-package org.psy.practice.novelcrawler.novelspider;
+package org.psy.crawler.novelcrawler;
 
-import org.psy.practice.novelcrawler.novelspider.entity.Config;
-import org.psy.practice.novelcrawler.novelspider.entity.PageRule;
-import org.psy.practice.novelcrawler.novelspider.entity.PageType;
-import org.psy.practice.novelcrawler.novelspider.pipeline.NovelDetailUrlPipeline;
-import org.psy.practice.novelcrawler.novelspider.processor.NovelPageProcessor;
+import org.psy.crawler.novelcrawler.entity.Config;
+import org.psy.crawler.novelcrawler.entity.PageRule;
+import org.psy.crawler.novelcrawler.entity.PageType;
+import org.psy.crawler.novelcrawler.pipeline.NovelDetailUrlPipeline;
+import org.psy.crawler.novelcrawler.processor.NovelPageProcessor;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Spider;
 

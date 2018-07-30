@@ -1,4 +1,4 @@
-package org.psy.practice.novelcrawler.novelspider.downloader;
+package org.psy.crawler.novelcrawler.downloader;
 
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
 

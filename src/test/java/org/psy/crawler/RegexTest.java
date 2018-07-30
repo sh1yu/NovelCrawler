@@ -1,4 +1,4 @@
-package org.psy.practice;
+package org.psy.crawler;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

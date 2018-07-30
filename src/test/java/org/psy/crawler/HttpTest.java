@@ -1,4 +1,4 @@
-package org.psy.practice;
+package org.psy.crawler;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

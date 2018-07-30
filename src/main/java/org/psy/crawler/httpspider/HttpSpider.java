@@ -1,6 +1,6 @@
-package org.psy.practice.novelcrawler.httpspider;
+package org.psy.crawler.httpspider;
 
-import org.psy.practice.commonutils.ReadFile;
+import org.psy.crawler.commonutils.ReadFile;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

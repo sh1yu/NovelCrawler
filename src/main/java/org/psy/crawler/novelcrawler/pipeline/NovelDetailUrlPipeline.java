@@ -1,12 +1,12 @@
-package org.psy.practice.novelcrawler.novelspider.pipeline;
+package org.psy.crawler.novelcrawler.pipeline;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.psy.practice.commonutils.ReadFile;
-import org.psy.practice.novelcrawler.novelspider.entity.Config;
-import org.psy.practice.novelcrawler.novelspider.entity.PageType;
-import org.psy.practice.novelcrawler.novelspider.utils.StringUtil;
+import org.psy.crawler.commonutils.ReadFile;
+import org.psy.crawler.novelcrawler.entity.PageType;
+import org.psy.crawler.novelcrawler.entity.Config;
+import org.psy.crawler.novelcrawler.utils.StringUtil;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;

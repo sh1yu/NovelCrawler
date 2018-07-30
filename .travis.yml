@@ -1,26 +1,19 @@
 language: java
 
 before_install:
-- echo ">>>>>>>>>before_install"
 
 #install:
 #- echo ">>>>>>>>>install"
 
 before_script:
-- echo ">>>>>>>>>before_script"
 
 script:
-- echo ">>>>>>>>>script"
-- ls /aaaaa
 
 after_success:
-- echo ">>>>>>>>>after_success"
 
 after_failure:
-- echo ">>>>>>>>>after_failure"
 
 after_script:
-- echo ">>>>>>>>>after_script"
 
 branchs:
   only:

@@ -1,4 +1,4 @@
-package org.psy.practice.commonutils;
+package org.psy.crawler.commonutils;
 
 import org.slf4j.LoggerFactory;
 import java.io.*;

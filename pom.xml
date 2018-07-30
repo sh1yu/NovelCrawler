@@ -86,7 +86,7 @@
                     <programs>
                         <program>
                             <!-- 启动的主class -->
-                            <mainClass>org.psy.practice.novelspider.NovelSpiderStartup</mainClass>
+                            <mainClass>org.psy.crawler.novelspider.NovelSpiderStartup</mainClass>
                             <name>novelSpider</name>
                         </program>
                     </programs>

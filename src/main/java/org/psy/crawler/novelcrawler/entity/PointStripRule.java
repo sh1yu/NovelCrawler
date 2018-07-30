@@ -1,4 +1,4 @@
-package org.psy.practice.novelcrawler.novelspider.entity;
+package org.psy.crawler.novelcrawler.entity;
 
 import java.util.List;
 

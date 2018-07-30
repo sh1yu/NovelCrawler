@@ -1,4 +1,4 @@
-package org.psy.practice.novelcrawler.httpspider;
+package org.psy.crawler.httpspider;
 
 import java.util.LinkedList;
 import java.util.List;

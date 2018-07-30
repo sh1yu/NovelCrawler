@@ -1,4 +1,4 @@
-package org.psy.practice;
+package org.psy.crawler;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;

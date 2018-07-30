@@ -1,4 +1,4 @@
-package org.psy.practice.novelcrawler.novelspider.entity;
+package org.psy.crawler.novelcrawler.entity;
 
 /** 抽取点需要进行的操作类型
  * Created by sypeng on 2016/12/10.

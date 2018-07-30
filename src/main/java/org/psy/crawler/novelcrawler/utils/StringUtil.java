@@ -1,4 +1,4 @@
-package org.psy.practice.novelcrawler.novelspider.utils;
+package org.psy.crawler.novelcrawler.utils;
 
 import org.apache.commons.lang.StringUtils;
 

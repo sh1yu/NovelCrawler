@@ -1,4 +1,4 @@
-package org.psy.practice.novelcrawler.novelspider.entity;
+package org.psy.crawler.novelcrawler.entity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

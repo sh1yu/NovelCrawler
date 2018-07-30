@@ -1,7 +1,7 @@
-package org.psy.practice.novelcrawler.novelspider.entity;
+package org.psy.crawler.novelcrawler.entity;
 
 import com.alibaba.fastjson.JSON;
-import org.psy.practice.commonutils.ReadFile;
+import org.psy.crawler.commonutils.ReadFile;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
