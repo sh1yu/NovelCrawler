@@ -1,9 +1,9 @@
 # NovelCrawler
 
-[![GitHub stars](https://img.shields.io/github/stars/psy-core/NovelCrawler.svg?style=for-the-badge&label=Stars&logo=github)](https://github.com/psy-core/NovelCrawler)
+[![Build Status](https://img.shields.io/travis-ci/psy-core/NovelCrawler.svg?branch=master&style=for-the-badge&logo=github)](http://travis-ci.org/psy-core/NovelCrawler)
+[![GitHub Stars](https://img.shields.io/github/stars/psy-core/NovelCrawler.svg?style=for-the-badge&logo=github)](https://github.com/psy-core/NovelCrawler)
+[![GitHub Forks](https://img.shields.io/github/forks/psy-core/NovelCrawler.svg?style=for-the-badge&logo=github)](https://github.com/psy-core/NovelCrawler)
 
-[![build status](https://secure.travis-ci.org/psy-core/NovelCrawler.svg?branch=master)](http://travis-ci.org/psy-core/NovelCrawler)
-[![Build Status](https://img.shields.io/github/forks/psy-core/NovelCrawler.svg)](https://github.com/psy-core/NovelCrawler)
 
 Small novel crawl tools written by java.
 
